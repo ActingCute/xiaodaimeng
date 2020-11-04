@@ -24,7 +24,7 @@ func main() {
 		log.Fatal("dial:", err)
 	}
 	defer c.Close()
-
+ 
 	go func() {
 		for {
 			_, message, err := c.ReadMessage()

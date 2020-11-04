@@ -105,6 +105,11 @@ func Handle(bMsg []byte) {
 		print("\nHandle Unmarshal error: ", err.Error())
 		return
 	}
+	//自己发的，不用回复
+	if IsAdmin(msg) {
+		print("主动发出去的信息不回复")
+		return
+	}
 	//判断是不是表情，是就用表情回复
 	if msg.Type == "表情" {
 		if len(emoji) > 1 {
