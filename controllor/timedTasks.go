@@ -7,7 +7,8 @@ import (
 	"sync"
 )
 
-var FriendsWeiXinId  = []string{"wxid_dppjrkktwdfd22","wxid_ch5ql4b1uh2v22","wxid_u3q162gfuq8k22","wxid_vw6bngu8c4o721","wxid_azmds1whb7r212","wxid_humu0ux5uz5622"}
+var FriendsWeiXinId = []string{"wxid_dppjrkktwdfd22", "wxid_ch5ql4b1uh2v22", "wxid_u3q162gfuq8k22", "wxid_vw6bngu8c4o721", "wxid_azmds1whb7r212", "wxid_humu0ux5uz5622"}
+
 //var FriendsWeiXinId = []string{"wxid_u3q162gfuq8k22", "wxid_azmds1whb7r212"}
 var AdminWeiXinId = []string{"qq190025254"}
 
@@ -27,7 +28,6 @@ type CurriculumContent struct {
 var Curriculum []CurriculumContent
 
 func init() {
-	print("\ninit goodNight\n")
 	c := cron.New()
 	//晚安
 	c.AddFunc("00 00 00 * * ?", func() {
@@ -61,23 +61,12 @@ func init() {
 		}
 		wg.Wait()
 	}
-
 	c.Start()
 }
 
-//说晚安
+//处理定时任务
 func doTimedTasks(wxIds []string, msg string) {
 	for _, wxId := range wxIds {
-		var rMsg = RMsg{
-			WxId:    wxId,
-			Content: msg,
-		}
-		bRMsg, err := json.Marshal(rMsg)
-		if err != nil {
-			print("\ndoTimedTasks Marshal RMsg error: ", err.Error())
-			continue
-		}
-		RWsMsg = make(chan []byte)
-		RWsMsg <- bRMsg
+		go SendMsg(wxId, msg)
 	}
 }

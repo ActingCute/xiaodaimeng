@@ -51,7 +51,7 @@ func main() {
 		case rMsg := <-controllor.RWsMsg:
 			err := c.WriteMessage(websocket.TextMessage, rMsg)
 //			print("\n进来关到了")
-			if err != nil { 
+			if err != nil {
 				log.Println("write close:", err)
 				return
 			}
