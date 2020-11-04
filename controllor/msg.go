@@ -38,6 +38,7 @@ const (
 	Token           = "puppet_donut_50d6bf5cbd5cdfa7"
 )
 
+
 const urlStr string = "https://openai.weixin.qq.com/openapi/message/" + OpenId
 
 var RWsMsg chan []byte
@@ -94,7 +95,7 @@ func Handle(bMsg []byte) {
 		print("\nHandle httpPostForm error: ", err2.Error())
 		return
 	}
-
+	print(string(msgBytes))
 	var answer XiaoDaiMeng
 	err = json.Unmarshal(msgBytes, &answer)
 	if err != nil {
@@ -102,15 +103,15 @@ func Handle(bMsg []byte) {
 		return
 	}
 
-	if answer.AnsNodeId != SuccessCode {
+	if answer.AnsNodeId > 0 {
 		//回答失败
-		print("\nXiaoDaiMeng 回答失败\n")
+		print("\nXiaoDaiMeng 回答失败\n",answer.Answer)
 		return
 	}
 
 	//替换机器人的名字
 	answer.Answer = strings.Replace(answer.Answer, "小微", XiaoDaiMengName, -1)
-	//print("\n", answer.Answer)
+	print("\n", answer.Answer)
 
 	var rMsg = RMsg{
 		WxId:    answer.FromUserName,

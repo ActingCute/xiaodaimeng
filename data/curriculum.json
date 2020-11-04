@@ -1,0 +1,52 @@
+[
+  {
+    "name": "计算机组成原理",
+    "start_time": "00 15 07 * * 1",
+    "number": 3
+  },
+  {
+    "name": "近代史",
+    "start_time": "00 30 13 * * 1",
+    "number": 3
+  },
+  {
+    "name": "算法分析",
+    "start_time": "00 15 07 * * 2",
+    "number": 3
+  },
+  {
+    "name": "汇编语言",
+    "start_time": "00 15 17 * * 2",
+    "number": 3
+  },
+  {
+    "name": "信息安全原理",
+    "start_time": "00 15 07 * * 3",
+    "number": 3
+  },
+  {
+    "name": "就业指导",
+    "start_time": "00 15 17 * * 3",
+    "number": 2
+  },
+  {
+    "name": "操作系统",
+    "start_time": "00 15 07 * * 4",
+    "number": 4
+  },
+  {
+    "name": "网络协议分析",
+    "start_time": "00 15 17 * * 4",
+    "number": 3
+  },
+  {
+    "name": "计算机病毒",
+    "start_time": "00 15 07 * * 5",
+    "number": 3
+  },
+  {
+    "name": "选修课",
+    "start_time": "00 25 09 * * 6",
+    "number": 2
+  }
+]
