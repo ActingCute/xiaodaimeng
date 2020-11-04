@@ -19,12 +19,11 @@ func main() {
 	u := url.URL{Scheme: "ws", Host: *addr, Path: ""}
 	log.Printf("connecting to %s", u.String())
 
-	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
-	if err != nil {
-		log.Fatal("dial:", err)
+	c, _, connErr := websocket.DefaultDialer.Dial(u.String(), nil)
+	if connErr != nil {
+		log.Fatal("dial:", connErr)
 	}
 	defer c.Close()
- 
 	go func() {
 		for {
 			_, message, err := c.ReadMessage()
@@ -40,6 +39,8 @@ func main() {
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 
+	controllor.SendMsg(controllor.MaxAdminId, "小呆萌上线了")
+
 	for {
 		select {
 		case t := <-ticker.C:
@@ -48,13 +49,16 @@ func main() {
 				log.Println("write:", err)
 				return
 			}
+
 		case rMsg := <-controllor.RWsMsg:
 			err := c.WriteMessage(websocket.TextMessage, rMsg)
-//			print("\n进来关到了")
+			//			print("\n进来关到了")
 			if err != nil {
 				log.Println("write close:", err)
 				return
 			}
 		}
 	}
+
+
 }

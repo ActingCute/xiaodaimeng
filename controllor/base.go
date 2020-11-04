@@ -10,9 +10,9 @@ var FriendsWeiXinId = []string{"wxid_dppjrkktwdfd22", "wxid_ch5ql4b1uh2v22", "wx
 //var FriendsWeiXinId = []string{"wxid_u3q162gfuq8k22", "wxid_azmds1whb7r212"}
 var AdminWeiXinId = []string{"Conan444444164", "wxid_azmds1whb7r212"}
 
-const MaxAdminId = "qq190025254"
+const MaxAdminId = "wxid_u3q162gfuq8k22"
 
-var MaxAdminIds = [] string{MaxAdminId}
+var MaxAdminIds = [] string{MaxAdminId, "qq190025254"}
 
 //两个数之间的随机数
 func GenerateRangeNum(min, max int) int {
@@ -24,7 +24,7 @@ func GenerateRangeNum(min, max int) int {
 //判断是不是admin
 
 func IsAdmin(msg Msg) bool {
-	return   isContains(AdminWeiXinId, msg.MsgSender) || isContains(AdminWeiXinId, msg.MsgSender)
+	return isContains(AdminWeiXinId, msg.MsgSender) || isContains(AdminWeiXinId, msg.MsgSender)
 }
 
 func isContains(father []string, son string) bool {
