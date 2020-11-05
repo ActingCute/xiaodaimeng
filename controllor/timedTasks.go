@@ -12,7 +12,7 @@ import (
 const (
 	sayGoodNightText = "睡觉啦，晚安~"
 	weiBoSignText    = "新浪要签到啦~"
-	drinkWaterText   = "要喝水啦~"
+	drinkWaterText   = "小宝贝，要喝水啦~"
 	curriculumText   = "接下来的课程是： "
 )
 
@@ -28,15 +28,15 @@ func init() {
 	c := cron.New()
 	//晚安
 	c.AddFunc("00 00 00 * * ?", func() {
-		doTimedTasks(FriendsWeiXinId, sayGoodNightText)
+		DoTimedTasks(FriendsWeiXinId, sayGoodNightText)
 	})
 	//新浪签到
 	c.AddFunc("00 00 22 * * ?", func() {
-		doTimedTasks(MaxAdminIds, weiBoSignText)
+		DoTimedTasks(MaxAdminIds, weiBoSignText)
 	})
 	//要喝水啦
 	c.AddFunc("0 0 08,09,10,11,12,13,14,15,16,17,18,19,20,21,22 * * ?", func() {
-		doTimedTasks(MaxAdminIds, drinkWaterText)
+		DoTimedTasks(DrinkWaterList, drinkWaterText)
 	})
 	//课程
 	filePtr, _ := os.Open("data/curriculum.json")
@@ -51,7 +51,7 @@ func init() {
 			wg.Add(1)
 			go func(curr CurriculumContent) {
 				c.AddFunc(curr.StartTime, func() {
-					doTimedTasks(AdminWeiXinId, curriculumText+curr.Name)
+					DoTimedTasks(AdminWeiXinId, curriculumText+curr.Name)
 				})
 				wg.Done()
 			}(curriculum)
@@ -62,7 +62,7 @@ func init() {
 }
 
 //处理定时任务
-func doTimedTasks(wxIds []string, msg string) {
+func DoTimedTasks(wxIds []string, msg string) {
 	for _, wxId := range wxIds {
 		go SendMsg(wxId, msg)
 	}

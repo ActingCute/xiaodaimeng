@@ -40,6 +40,11 @@ type Emoji struct {
 	img string `json:"img"`
 }
 
+type ProblemList struct {
+	Problem string `json:"problem"`
+	Answer  string `json:"answer"`
+}
+
 const (
 	XiaoDaiMengName = "小呆萌"
 	EncodingAESKey  = "cid2xSztPaRWLTVktma1tsO3rY9cD0d5SVRRW3AWgk3"
@@ -53,6 +58,7 @@ var RWsMsg chan []byte
 var emoji []Emoji
 var lock sync.Mutex
 var oldEmojiKey = 0
+var problemList []ProblemList
 
 func init() {
 	//初始化表情
@@ -61,7 +67,16 @@ func init() {
 	decoder := json.NewDecoder(filePtr)
 	err := decoder.Decode(&emoji)
 	if err != nil {
-		print("表情解码失败，", err)
+		print("表情解码失败，", err.Error())
+	}
+	//初始化一些问题和答案
+	//初始化表情
+	filePtr1, _ := os.Open("data/answer.json")
+	defer filePtr1.Close()
+	decoder = json.NewDecoder(filePtr1)
+	err = decoder.Decode(&problemList)
+	if err != nil {
+		print("问题列表解码失败，", err.Error())
 	}
 }
 
@@ -105,9 +120,9 @@ func Handle(bMsg []byte) {
 		print("\nHandle Unmarshal error: ", err.Error())
 		return
 	}
-	//自己发的，不用回复
-	if IsAdmin(msg) {
-		print("主动发出去的信息不回复")
+	//自己发的，不用回复,已经拉黑的，不用回复
+	if IsAdmin(msg) || IsBlackMsg(msg) {
+		print("主动发出去的信息/红包 不回复")
 		return
 	}
 	//判断是不是表情，是就用表情回复
@@ -146,7 +161,7 @@ func Handle(bMsg []byte) {
 		print("\nHandle httpPostForm error: ", err2.Error())
 		return
 	}
-	//print(string(msgBytes))
+	print(string(msgBytes))
 	var answer XiaoDaiMeng
 	err = json.Unmarshal(msgBytes, &answer)
 	if err != nil {
@@ -156,8 +171,21 @@ func Handle(bMsg []byte) {
 
 	if answer.AnsNodeId < 1 {
 		//回答失败
-		print("\nXiaoDaiMeng 回答失败\n", answer.Answer)
-		return
+		print("\nXiaoDaiMeng 回答失败了->", msg.Content, "<-\n")
+
+		//查找问题列表有没有答案，有接直接用
+		hasAnswer := false
+		for _, a := range problemList {
+			//print("strings.Index(msg.Content, a.Problem) ", strings.Index(msg.Content, a.Problem))
+			if strings.Index(msg.Content, a.Problem) != -1 {
+				answer.Answer = a.Answer
+				hasAnswer = true
+				break
+			}
+		}
+		if !hasAnswer {
+			return
+		}
 	}
 
 	//print("\nCODE :", answer.AnsNodeId)

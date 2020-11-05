@@ -39,7 +39,7 @@ func main() {
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 
-	//controllor.SendMsg(controllor.MaxAdminId, "小呆萌上线了")
+	controllor.DoTimedTasks(controllor.NeedSendUpdateList, "小呆萌开机了")
 
 	for {
 		select {
