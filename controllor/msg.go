@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
 	"sync"
 	"time"
@@ -60,26 +59,6 @@ var lock sync.Mutex
 var oldEmojiKey = 0
 var problemList []ProblemList
 
-func init() {
-	//初始化表情
-	filePtr, _ := os.Open("data/emoji.json")
-	defer filePtr.Close()
-	decoder := json.NewDecoder(filePtr)
-	err := decoder.Decode(&emoji)
-	if err != nil {
-		print("表情解码失败，", err.Error())
-	}
-	//初始化一些问题和答案
-	//初始化表情
-	filePtr1, _ := os.Open("data/answer.json")
-	defer filePtr1.Close()
-	decoder = json.NewDecoder(filePtr1)
-	err = decoder.Decode(&problemList)
-	if err != nil {
-		print("问题列表解码失败，", err.Error())
-	}
-}
-
 func getToken(msg Msg) (tokenString string, err error) {
 
 	token := jwt.New(jwt.SigningMethodHS256)
@@ -89,11 +68,11 @@ func getToken(msg Msg) (tokenString string, err error) {
 	token.Claims = claims
 	tokenString, err = token.SignedString([]byte(EncodingAESKey))
 	if err != nil {
-		print(err)
+		Printf(err.Error())
 		return
 	}
 
-	//print(tokenString)
+	//Printf(tokenString)
 
 	return
 }
@@ -117,12 +96,12 @@ func Handle(bMsg []byte) {
 	var msg Msg
 	err := json.Unmarshal(bMsg, &msg)
 	if err != nil {
-		print("\nHandle Unmarshal error: ", err.Error())
+		Printf("\nHandle Unmarshal error: ", err.Error())
 		return
 	}
 	//自己发的，不用回复,已经拉黑的，不用回复
 	if IsAdmin(msg) || IsBlackMsg(msg) {
-		print("主动发出去的信息/红包 不回复")
+		Printf("主动发出去的信息/红包 不回复")
 		return
 	}
 	//判断是不是表情，是就用表情回复
@@ -148,35 +127,35 @@ func Handle(bMsg []byte) {
 		}
 		return
 	}
-	//print("msg.Content:", msg.Content)
+	//Printf("msg.Content:", msg.Content)
 	token, err1 := getToken(msg)
 
 	if err1 != nil {
-		print("Handle getToken error: ", err1.Error())
+		Printf("Handle getToken error: ", err1.Error())
 		return
 	}
-	//print(token)
+	//Printf(token)
 	msgBytes, err2 := httpPostForm(token)
 	if err2 != nil {
-		print("\nHandle httpPostForm error: ", err2.Error())
+		Printf("\nHandle httpPostForm error: ", err2.Error())
 		return
 	}
-	print(string(msgBytes))
+	Printf(string(msgBytes))
 	var answer XiaoDaiMeng
 	err = json.Unmarshal(msgBytes, &answer)
 	if err != nil {
-		print("\nHandle Unmarshal XiaoDaiMeng error: ", err.Error())
+		Printf("\nHandle Unmarshal XiaoDaiMeng error: ", err.Error())
 		return
 	}
 
 	if answer.AnsNodeId < 1 {
 		//回答失败
-		print("\nXiaoDaiMeng 回答失败了->", msg.Content, "<-\n")
+		Printf("\nXiaoDaiMeng 回答失败了->", msg.Content, "<-\n")
 
 		//查找问题列表有没有答案，有接直接用
 		hasAnswer := false
 		for _, a := range problemList {
-			//print("strings.Index(msg.Content, a.Problem) ", strings.Index(msg.Content, a.Problem))
+			//Printf("strings.Index(msg.Content, a.Problem) ", strings.Index(msg.Content, a.Problem))
 			if strings.Index(msg.Content, a.Problem) != -1 {
 				answer.Answer = a.Answer
 				hasAnswer = true
@@ -188,11 +167,11 @@ func Handle(bMsg []byte) {
 		}
 	}
 
-	//print("\nCODE :", answer.AnsNodeId)
+	//Printf("\nCODE :", answer.AnsNodeId)
 
 	//替换机器人的名字
 	answer.Answer = strings.Replace(answer.Answer, "小微", XiaoDaiMengName, -1)
-	//print("\n", answer.Answer)
+	//Printf("\n", answer.Answer)
 
 	go func(a XiaoDaiMeng) {
 		SendMsg(a.FromUserName, a.Answer)
@@ -208,10 +187,10 @@ func SendMsg(wxId string, content string) {
 	}
 	bRMsg, err := json.Marshal(rMsg)
 	if err != nil {
-		print("\nSendMsg Marshal RMsg error: ", err.Error())
+		Printf("\nSendMsg Marshal RMsg error: ", err.Error())
 		return
 	}
-	//print("\n下来了")
+	//Printf("\n下来了")
 	RWsMsg = make(chan []byte)
 	RWsMsg <- bRMsg
 	defer lock.Unlock()

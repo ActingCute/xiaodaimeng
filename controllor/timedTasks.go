@@ -44,7 +44,7 @@ func init() {
 	decoder := json.NewDecoder(filePtr)
 	err := decoder.Decode(&Curriculum)
 	if err != nil {
-		print("课程解码失败，", err)
+		Printf("课程解码失败，", err)
 	} else {
 		var wg sync.WaitGroup
 		for _, curriculum := range Curriculum {

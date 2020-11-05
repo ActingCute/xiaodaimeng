@@ -1,0 +1,6 @@
+2020/11/05 20:31:42 [debug] xiaodaimeng/main.go:58 recv: [123 34 116 105 109 101 115 34 58 34 50 48 50 48 45 49 49 45 48 53 32 50 48 45 51 49 45 52 50 34 44 34 116 121 112 101 34 58 34 230 150 135 229 173 151 34 44 34 115 111 117 114 99 101 34 58 34 229 165 189 229 143 139 230 182 136 230 129 175 34 44 34 119 120 105 100 34 58 34 119 120 105 100 95 117 51 113 49 54 50 103 102 117 113 56 107 50 50 34 44 34 109 115 103 83 101 110 100 101 114 34 58 34 34 44 34 99 111 110 116 101 110 116 34 58 34 229 156 168 229 147 170 34 125]
+2020/11/05 20:32:19 [debug] xiaodaimeng/main.go:58 recv: {"times":"2020-11-05 20-32-19","type":"文字","source":"好友消息","wxid":"wxid_u3q162gfuq8k22","msgSender":"","content":"在哪"}
+2020/11/05 20:33:10 [debug] xiaodaimeng/main.go:58 recv: {"times":"2020-11-05 20-33-10","type":"共享实时位置、文件、好友消息","source":"好友消息","wxid":"wxid_u3q162gfuq8k22","msgSender":"","content":"消息内容过长 已经过滤"}
+2020/11/05 20:34:07 [debug] xiaodaimeng/main.go:73 write:write tcp [::1]:52334->[::1]:9100: wsasend: An existing connection was forcibly closed by the remote host.
+2020/11/05 20:43:14 [debug] xiaodaimeng/main.go:55 recv: {"times":"2020-11-05 20-43-14","type":"文字","source":"好友消息","wxid":"wxid_u3q162gfuq8k22","msgSender":"","content":"在不"}
+2020/11/05 20:44:18 [info] xiaodaimeng/main.go:41 connecting to ws://localhost:9100
