@@ -1,4 +1,11 @@
 {
-  "is_debug": false,
-  "ws_orgin" : "localhost:9100"
+  "is_debug": true,
+  "ws_orgin" : "localhost:9100",
+  "mysql":{
+    "table": "xiaodaimeng",
+    "host": "127.0.0.1",
+    "user": "root",
+    "password": "admin",
+    "port": "3306"
+  }
 }

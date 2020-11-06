@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"xiaodaimeng/public"
 )
 
 type XDM struct {
@@ -36,9 +37,9 @@ func init() {
 	decoder := json.NewDecoder(menuPtr)
 	err := decoder.Decode(&Menu)
 	if err != nil {
-		Printf("菜单文件解码失败，", err.Error())
+		public.Printf("菜单文件解码失败，", err.Error())
 	}
-	Debug("about : ", Menu.About)
+	public.Debug("about : ", Menu.About)
 	for i, f := range Menu.Menu {
 		funcNames := strings.Split(f, "/")
 		ff := func(msg Msg) {}
@@ -49,8 +50,7 @@ func init() {
 		//	"待办事项/todo"
 
 		if len(funcNames) == 2 {
-			ConfigData.IsDebug = true
-			Debug(funcNames[0])
+			public.Debug(funcNames[0])
 			switch funcNames[0] {
 			case "帮助":
 				ff = Help
@@ -107,26 +107,27 @@ func Help(msg Msg) {
 }
 
 func About(msg Msg) {
-	Debug("About")
+	public.Debug("About")
 	SendMsg(msg.WxId, Menu.About)
 }
 
 func Cyjl(msg Msg) {
-	Debug("Cyjl")
+	public.Debug("Cyjl")
+	msg.Content = "成语接龙"
 	GetAnswer(msg)
 }
 
 func Pa(msg Msg) {
-	Debug("Pa")
+	public.Debug("Pa")
 	SendMsg(msg.WxId, notDoneText)
 }
 
 func Diary(msg Msg) {
-	Debug("Diary")
+	public.Debug("Diary")
 	SendMsg(msg.WxId, notDoneText)
 }
 
 func WTodo(msg Msg) {
-	Debug("Todo")
+	public.Debug("Todo")
 	SendMsg(msg.WxId, notDoneText)
 }

@@ -9,6 +9,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"xiaodaimeng/public"
 )
 
 // {"times":"2020-11-04 08-32-33","type":"文字","source":"群消息","wxid":"22925504714@chatroom","msgSender":"wxid_azmds1whb7r212","content":"啊"}
@@ -68,7 +69,7 @@ func getToken(msg Msg) (tokenString string, err error) {
 	token.Claims = claims
 	tokenString, err = token.SignedString([]byte(EncodingAESKey))
 	if err != nil {
-		Printf(err.Error())
+		public.Printf(err.Error())
 		return
 	}
 
@@ -82,6 +83,7 @@ func httpPostForm(query string) (body []byte, err error) {
 		url.Values{"query": {query}})
 
 	if err != nil {
+		public.Error(err.Error())
 		return
 	}
 
@@ -96,17 +98,17 @@ func Handle(bMsg []byte) {
 	var msg Msg
 	err := json.Unmarshal(bMsg, &msg)
 	if err != nil {
-		Printf("\nHandle Unmarshal error: ", err.Error())
+		public.Error("\nHandle Unmarshal error: ", err.Error())
 		return
 	}
 	//自己发的，不用回复,已经拉黑的，不用回复
 	if IsAdmin(msg) || IsBlackMsg(msg) {
-		Printf("主动发出去的信息/红包 不回复")
+		public.Printf("主动发出去的信息/红包 不回复")
 		return
 	}
 	//判断是不是菜单函数
 	if ff := IsMenuFunc(msg.Content); ff != nil {
-		Debug("是菜单函数")
+		public.Debug("是菜单函数")
 		ff(msg)
 		return
 	}
@@ -142,26 +144,26 @@ func GetAnswer(msg Msg) {
 	token, err1 := getToken(msg)
 
 	if err1 != nil {
-		Printf("Handle getToken error: ", err1.Error())
+		public.Error("Handle getToken error: ", err1.Error())
 		return
 	}
 	//Printf(token)
 	msgBytes, err2 := httpPostForm(token)
 	if err2 != nil {
-		Printf("\nHandle httpPostForm error: ", err2.Error())
+		public.Error("\nHandle httpPostForm error: ", err2.Error())
 		return
 	}
-	Printf(string(msgBytes))
+	public.Printf(string(msgBytes))
 	var answer XiaoDaiMeng
 	err := json.Unmarshal(msgBytes, &answer)
 	if err != nil {
-		Printf("\nHandle Unmarshal XiaoDaiMeng error: ", err.Error())
+		public.Error("\nHandle Unmarshal XiaoDaiMeng error: ", err.Error())
 		return
 	}
 
 	if answer.AnsNodeId < 1 {
 		//回答失败
-		Printf("\nXiaoDaiMeng 回答失败了->", msg.Content, "<-\n")
+		public.Printf("\nXiaoDaiMeng 回答失败了->", msg.Content, "<-\n")
 
 		//查找问题列表有没有答案，有接直接用
 		hasAnswer := false
@@ -198,7 +200,7 @@ func SendMsg(wxId string, content string) {
 	}
 	bRMsg, err := json.Marshal(rMsg)
 	if err != nil {
-		Printf("\nSendMsg Marshal RMsg error: ", err.Error())
+		public.Error("\nSendMsg Marshal RMsg error: ", err.Error())
 		return
 	}
 	//Printf("\n下来了")

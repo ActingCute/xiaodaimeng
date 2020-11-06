@@ -5,6 +5,7 @@ import (
 	"github.com/robfig/cron"
 	"os"
 	"sync"
+	"xiaodaimeng/public"
 )
 
 
@@ -44,7 +45,7 @@ func init() {
 	decoder := json.NewDecoder(filePtr)
 	err := decoder.Decode(&Curriculum)
 	if err != nil {
-		Printf("课程解码失败，", err)
+		public.Error("课程解码失败，", err)
 	} else {
 		var wg sync.WaitGroup
 		for _, curriculum := range Curriculum {

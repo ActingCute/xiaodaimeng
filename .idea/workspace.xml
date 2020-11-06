@@ -6,13 +6,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fbfbded-bcb3-44ba-93da-c4449fd00255" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data/menu.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllor/base.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllor/base.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllor/code.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllor/code.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllor/menu.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllor/menu.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllor/msg.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllor/msg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllor/timedTasks.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllor/timedTasks.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/daimeng.log" beforeDir="false" afterPath="$PROJECT_DIR$/daimeng.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/updateList.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xiaodaimeng.exe" beforeDir="false" afterPath="$PROJECT_DIR$/xiaodaimeng.exe" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +31,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="C:\Go" />
+  <component name="GOROOT" path="D:\job\GO\go1.14.2.windows-amd64\go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -67,10 +72,23 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\job\GO\GOPATH\src\xiaodaimeng\public" />
       <recent name="C:\Users\admin\go\src\xiaodaimeng\controllor" />
     </key>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
@@ -79,20 +97,16 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
-    <environment>
-      <map>
-        <entry key="GOPROXY" value="goproxy.io" />
-      </map>
-    </environment>
     <proxy>goproxy.io</proxy>
   </component>
   <component name="WindowStateProjectService">
