@@ -104,6 +104,12 @@ func Handle(bMsg []byte) {
 		Printf("主动发出去的信息/红包 不回复")
 		return
 	}
+	//判断是不是菜单函数
+	if ff := IsMenuFunc(msg.Content); ff != nil {
+		Debug("是菜单函数")
+		ff(msg)
+		return
+	}
 	//判断是不是表情，是就用表情回复
 	if msg.Type == "表情" {
 		if len(emoji) > 1 {
@@ -128,6 +134,11 @@ func Handle(bMsg []byte) {
 		return
 	}
 	//Printf("msg.Content:", msg.Content)
+	//机器人答案
+	GetAnswer(msg)
+}
+
+func GetAnswer(msg Msg) {
 	token, err1 := getToken(msg)
 
 	if err1 != nil {
@@ -142,7 +153,7 @@ func Handle(bMsg []byte) {
 	}
 	Printf(string(msgBytes))
 	var answer XiaoDaiMeng
-	err = json.Unmarshal(msgBytes, &answer)
+	err := json.Unmarshal(msgBytes, &answer)
 	if err != nil {
 		Printf("\nHandle Unmarshal XiaoDaiMeng error: ", err.Error())
 		return

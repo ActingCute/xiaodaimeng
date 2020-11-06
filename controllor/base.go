@@ -1,6 +1,8 @@
 package controllor
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -80,9 +82,9 @@ func isContains(father []string, son string) bool {
 func Printf(logText ...interface{}) {
 	if !ConfigData.IsDebug {
 		logPath, line := getCaller(2)
-		log.Print("[info] ", logPath, ":", line, " ", fmt.Sprint(logText...), "\n")
+		log.Println("[info] ", logPath, ":", line, " ", fmt.Sprint(logText...))
 	} else {
-		print(fmt.Sprint(logText...), "\n")
+		println(fmt.Sprint(logText...))
 	}
 }
 
@@ -90,8 +92,8 @@ func Printf(logText ...interface{}) {
 func Debug(logText ...interface{}) {
 	if ConfigData.IsDebug {
 		logPath, line := getCaller(2)
-		log.Print("[debug] ", logPath, ":", line, " ", fmt.Sprint(logText...), "\n")
-		print(fmt.Sprint(logText...), "\n")
+		log.Println("[debug] ", logPath, ":", line, " ", fmt.Sprint(logText...))
+		println(fmt.Sprint(logText...))
 	}
 }
 
@@ -115,4 +117,11 @@ func getCaller(skip int) (string, int) {
 		}
 	}
 	return file, line
+}
+
+//md5
+func md5V(str string) string  {
+	h := md5.New()
+	h.Write([]byte(str))
+	return hex.EncodeToString(h.Sum(nil))
 }
