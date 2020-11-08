@@ -40,9 +40,6 @@
     <Filter Include="好友列表\发送消息">
       <UniqueIdentifier>{ce3d11ea-50a8-4102-8fcc-c78b434c93e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="功能大全\个人信息">
-      <UniqueIdentifier>{1893610a-444d-43b3-9d38-ac949a886f2c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="好友列表\好友列表">
       <UniqueIdentifier>{57cae96b-b9d4-43d4-9876-e35d0bb96af6}</UniqueIdentifier>
     </Filter>
@@ -67,21 +64,6 @@
     <Filter Include="好友列表\查看群成员">
       <UniqueIdentifier>{04f0e374-4481-4bc2-8bb2-1953a1f1081f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="功能大全\无限多开">
-      <UniqueIdentifier>{744c6196-1c9e-4599-84a0-174a0cad9551}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="菜单栏">
-      <UniqueIdentifier>{6e5d0c2d-2b48-4085-973d-e23069646a4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="菜单栏\打赏作者">
-      <UniqueIdentifier>{77a5f69c-2e7d-48be-aeb9-17376dc0dafd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="菜单栏\关于作者">
-      <UniqueIdentifier>{e4db8bb4-32bd-4353-8af5-dacb3efea7cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="功能大全\添加好友">
-      <UniqueIdentifier>{e631ad46-5b2a-4b1b-a64a-89521bc01283}</UniqueIdentifier>
-    </Filter>
     <Filter Include="好友列表\修改群名称">
       <UniqueIdentifier>{c056225b-cdec-4635-b153-e64128b4878b}</UniqueIdentifier>
     </Filter>
@@ -90,9 +72,6 @@
     </Filter>
     <Filter Include="好友列表\查看群成员\查看群成员">
       <UniqueIdentifier>{f3300f15-5b33-45cd-9fda-d0ed9bd2efdd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="功能大全\打开微信浏览器">
-      <UniqueIdentifier>{29b883c2-a143-4bbf-b2db-db10231b897e}</UniqueIdentifier>
     </Filter>
     <Filter Include="webscoket">
       <UniqueIdentifier>{ec9bc960-f50e-4b61-8a35-f7360668b660}</UniqueIdentifier>
@@ -132,9 +111,6 @@
     <ClInclude Include="CSendMsg.h">
       <Filter>好友列表\发送消息</Filter>
     </ClInclude>
-    <ClInclude Include="CInformation.h">
-      <Filter>功能大全\个人信息</Filter>
-    </ClInclude>
     <ClInclude Include="CFriendList.h">
       <Filter>好友列表\好友列表</Filter>
     </ClInclude>
@@ -156,18 +132,6 @@
     <ClInclude Include="CSendXmlCard.h">
       <Filter>好友列表\发送名片</Filter>
     </ClInclude>
-    <ClInclude Include="CMultiOpen.h">
-      <Filter>功能大全\无限多开</Filter>
-    </ClInclude>
-    <ClInclude Include="CPay.h">
-      <Filter>菜单栏\打赏作者</Filter>
-    </ClInclude>
-    <ClInclude Include="CAboutAuthor.h">
-      <Filter>菜单栏\关于作者</Filter>
-    </ClInclude>
-    <ClInclude Include="CAddUser.h">
-      <Filter>功能大全\添加好友</Filter>
-    </ClInclude>
     <ClInclude Include="CSetRoomName.h">
       <Filter>好友列表\修改群名称</Filter>
     </ClInclude>
@@ -176,9 +140,6 @@
     </ClInclude>
     <ClInclude Include="CChatRoomMember.h">
       <Filter>好友列表\查看群成员\查看群成员</Filter>
-    </ClInclude>
-    <ClInclude Include="COpenUrl.h">
-      <Filter>功能大全\打开微信浏览器</Filter>
     </ClInclude>
     <ClInclude Include="webscoket.h">
       <Filter>webscoket</Filter>
@@ -209,9 +170,6 @@
     <ClCompile Include="CSendMsg.cpp">
       <Filter>好友列表\发送消息</Filter>
     </ClCompile>
-    <ClCompile Include="CInformation.cpp">
-      <Filter>功能大全\个人信息</Filter>
-    </ClCompile>
     <ClCompile Include="CFriendList.cpp">
       <Filter>好友列表\好友列表</Filter>
     </ClCompile>
@@ -233,18 +191,6 @@
     <ClCompile Include="CSendXmlCard.cpp">
       <Filter>好友列表\发送名片</Filter>
     </ClCompile>
-    <ClCompile Include="CMultiOpen.cpp">
-      <Filter>功能大全\无限多开</Filter>
-    </ClCompile>
-    <ClCompile Include="CPay.cpp">
-      <Filter>菜单栏\打赏作者</Filter>
-    </ClCompile>
-    <ClCompile Include="CAboutAuthor.cpp">
-      <Filter>菜单栏\关于作者</Filter>
-    </ClCompile>
-    <ClCompile Include="CAddUser.cpp">
-      <Filter>功能大全\添加好友</Filter>
-    </ClCompile>
     <ClCompile Include="CSetRoomName.cpp">
       <Filter>好友列表\修改群名称</Filter>
     </ClCompile>
@@ -253,9 +199,6 @@
     </ClCompile>
     <ClCompile Include="CChatRoomMember.cpp">
       <Filter>好友列表\查看群成员\查看群成员</Filter>
-    </ClCompile>
-    <ClCompile Include="COpenUrl.cpp">
-      <Filter>功能大全\打开微信浏览器</Filter>
     </ClCompile>
     <ClCompile Include="webscoket.cpp">
       <Filter>webscoket</Filter>

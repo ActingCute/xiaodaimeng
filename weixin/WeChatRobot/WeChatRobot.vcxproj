@@ -191,21 +191,15 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CAboutAuthor.h" />
     <ClInclude Include="CAddChatRoomMember.h" />
-    <ClInclude Include="CAddUser.h" />
     <ClInclude Include="CChatRecords.h" />
     <ClInclude Include="CChatRoomMember.h" />
     <ClInclude Include="CDecryptImage.h" />
     <ClInclude Include="CFriendList.h" />
     <ClInclude Include="CFunctions.h" />
-    <ClInclude Include="CInformation.h" />
     <ClInclude Include="CInjectTools.h" />
     <ClInclude Include="CMain.h" />
-    <ClInclude Include="CMultiOpen.h" />
     <ClInclude Include="CMyTableCtrl.h" />
-    <ClInclude Include="COpenUrl.h" />
-    <ClInclude Include="CPay.h" />
     <ClInclude Include="CRoomAnnouncement.h" />
     <ClInclude Include="CSendChatRoomAt.h" />
     <ClInclude Include="CSendMsg.h" />
@@ -221,21 +215,15 @@
     <ClInclude Include="WeChatRobotDlg.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CAboutAuthor.cpp" />
     <ClCompile Include="CAddChatRoomMember.cpp" />
-    <ClCompile Include="CAddUser.cpp" />
     <ClCompile Include="CChatRecords.cpp" />
     <ClCompile Include="CChatRoomMember.cpp" />
     <ClCompile Include="CDecryptImage.cpp" />
     <ClCompile Include="CFriendList.cpp" />
     <ClCompile Include="CFunctions.cpp" />
-    <ClCompile Include="CInformation.cpp" />
     <ClCompile Include="CInjectTools.cpp" />
     <ClCompile Include="CMain.cpp" />
-    <ClCompile Include="CMultiOpen.cpp" />
     <ClCompile Include="CMyTableCtrl.cpp" />
-    <ClCompile Include="COpenUrl.cpp" />
-    <ClCompile Include="CPay.cpp" />
     <ClCompile Include="CRoomAnnouncement.cpp" />
     <ClCompile Include="CSendChatRoomAt.cpp" />
     <ClCompile Include="CSendMsg.cpp" />

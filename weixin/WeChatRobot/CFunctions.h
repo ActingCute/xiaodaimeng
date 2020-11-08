@@ -11,7 +11,7 @@ public:
 	CFunctions(CWnd* pParent = nullptr);   // 标准构造函数
 	virtual ~CFunctions();
 
-// 对话框数据
+	// 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_FUNCTIONS };
 #endif
@@ -21,12 +21,5 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedInformation();
 	afx_msg void OnBnClickedDecryptPic();
-
-	afx_msg void OnBnClickedMultiOpen();
-	afx_msg void OnBnClickedAddUser();
-	afx_msg void OnBnClickedAutoChat();
-	afx_msg void OnBnClickedGetExpression();
-	afx_msg void OnBnClickedOpenUrl();
 };

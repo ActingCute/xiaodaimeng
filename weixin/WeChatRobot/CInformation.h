@@ -7,11 +7,7 @@ class CInformation : public CDialogEx
 {
 	DECLARE_DYNAMIC(CInformation)
 
-public:
-	CInformation(CWnd* pParent = nullptr);   // 标准构造函数
-	virtual ~CInformation();
-
-// 对话框数据
+	// 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_INFORMATION };
 #endif

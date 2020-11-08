@@ -25,22 +25,22 @@
 #pragma comment(lib,"winmm.lib")  //多媒体播放所需的库文件
 #include "webscoket.h"
 
-DWORD g_index=0;
+DWORD g_index = 0;
 
 
 //string转UTF8
-std::string string_To_UTF8(const std::string & str)
+std::string string_To_UTF8(const std::string& str)
 {
 	int nwLen = ::MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, NULL, 0);
 
-	wchar_t * pwBuf = new wchar_t[nwLen + 1];//一定要加1，不然会出现尾巴 
+	wchar_t* pwBuf = new wchar_t[nwLen + 1];//一定要加1，不然会出现尾巴 
 	ZeroMemory(pwBuf, nwLen * 2 + 2);
 
 	::MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length(), pwBuf, nwLen);
 
 	int nLen = ::WideCharToMultiByte(CP_UTF8, 0, pwBuf, -1, NULL, NULL, NULL, NULL);
 
-	char * pBuf = new char[nLen + 1];
+	char* pBuf = new char[nLen + 1];
 	ZeroMemory(pBuf, nLen + 1);
 
 	::WideCharToMultiByte(CP_UTF8, 0, pwBuf, nwLen, pBuf, nLen, NULL, NULL);
@@ -58,12 +58,12 @@ std::string string_To_UTF8(const std::string & str)
 
 
 //wchar_t转string
-std::string Wchar_tToString(wchar_t *wchar)
+std::string Wchar_tToString(wchar_t* wchar)
 {
 	std::string szDst;
-	wchar_t * wText = wchar;
+	wchar_t* wText = wchar;
 	DWORD dwNum = WideCharToMultiByte(CP_OEMCP, NULL, wText, -1, NULL, 0, NULL, FALSE);// WideCharToMultiByte的运用
-	char *psText; // psText为char*的临时数组，作为赋值给std::string的中间变量
+	char* psText; // psText为char*的临时数组，作为赋值给std::string的中间变量
 	psText = new char[dwNum];
 	WideCharToMultiByte(CP_OEMCP, NULL, wText, -1, psText, dwNum, NULL, FALSE);// WideCharToMultiByte的再次运用
 	szDst = psText;// std::string赋值
@@ -73,9 +73,9 @@ std::string Wchar_tToString(wchar_t *wchar)
 
 
 //string转wchar_t
-wchar_t * StringToWchar_t(const std::string & str)
+wchar_t* StringToWchar_t(const std::string& str)
 {
-	wchar_t * m_chatroommmsg = new wchar_t[str.size() * 2];  //
+	wchar_t* m_chatroommmsg = new wchar_t[str.size() * 2];  //
 	memset(m_chatroommmsg, 0, str.size() * 2);
 	setlocale(LC_ALL, "zh_CN.UTF-8");
 	swprintf(m_chatroommmsg, str.size() * 2, L"%S", str.c_str());
@@ -91,7 +91,7 @@ std::string asyncSendWs(std::string s) {
 
 #include <future>
 
-void Log(const std::string & type, const std::string & wxid, const std::string & source, const std::string & msgSender, const std::string & content) {
+void Log(const std::string& type, const std::string& wxid, const std::string& source, const std::string& msgSender, const std::string& content) {
 	setlocale(LC_ALL, "zh_CN.UTF-8");
 	time_t t = time(0);
 	char ch[64];
@@ -99,7 +99,7 @@ void Log(const std::string & type, const std::string & wxid, const std::string &
 	std::string times = ch;
 	std::string log;
 	std::string msgJson;
-	if (strstr(msgSender.c_str(), "NULL") != NULL) 
+	if (strstr(msgSender.c_str(), "NULL") != NULL)
 	{
 		log = string_To_UTF8(
 			"************************ " + times + " ************************" +
@@ -146,9 +146,9 @@ void Log(const std::string & type, const std::string & wxid, const std::string &
 	std::cout << std::endl;
 	// 带函数的future
 	auto futureFunction = std::async(asyncSendWs, msgJson);
-	
 
-	FILE * fp = fopen("log.txt", "ab+");
+
+	FILE* fp = fopen("log.txt", "ab+");
 	fwrite(log.c_str(), log.length(), 1, fp);
 	fclose(fp);
 }
@@ -206,7 +206,7 @@ BOOL CChatRecords::OnInitDialog()
 	m_ChatRecord.InsertColumn(3, L"群发送者", 0, 150);
 	m_ChatRecord.InsertColumn(4, L"消息内容", 0, 310);
 	m_ChatRecord.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
-	return TRUE;  // return TRUE unless you set the focus to a control
+	return FALSE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
 }
 
@@ -230,16 +230,18 @@ BOOL CChatRecords::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 afx_msg LRESULT CChatRecords::OnShowmessage(WPARAM wParam, LPARAM lParam)
 {
 	//取数据
-	Message *msg = (Message*)wParam;
+	Message* msg = (Message*)wParam;
+
+
 
 	//显示到控件
-	m_ChatRecord.InsertItem(g_index, msg->type);
-	m_ChatRecord.SetItemText(g_index, 1, msg->source);
-	m_ChatRecord.SetItemText(g_index, 2, msg->wxid);
-	m_ChatRecord.SetItemText(g_index, 3, msg->msgSender);
-	m_ChatRecord.SetItemText(g_index, 4, msg->content);
+	//m_ChatRecord.InsertItem(g_index, msg->type);
+	//m_ChatRecord.SetItemText(g_index, 1, msg->source);
+	//m_ChatRecord.SetItemText(g_index, 2, msg->wxid);
+	//m_ChatRecord.SetItemText(g_index, 3, msg->msgSender);
+	//m_ChatRecord.SetItemText(g_index, 4, msg->content);
 
-	
+
 
 
 	//if (msg->isMoney==TRUE)
@@ -262,7 +264,18 @@ afx_msg LRESULT CChatRecords::OnShowmessage(WPARAM wParam, LPARAM lParam)
 	std::string source = Wchar_tToString(msg->source);
 	std::string msgSender = Wchar_tToString(msg->msgSender);
 	std::string content = Wchar_tToString(msg->content);
-	Log(type.c_str(),wxid.c_str(), source.c_str(), msgSender.c_str(), content.c_str());
+
+	// 过长、系统消息 过滤
+	int has = content.find("消息内容过长");
+	if (has > -1) {
+		return 0;
+	}
+	has = content.find("请在手机");
+	if (has > -1) {
+		return 0;
+	}
+
+	Log(type.c_str(), wxid.c_str(), source.c_str(), msgSender.c_str(), content.c_str());
 
 	return 0;
 }
