@@ -2,8 +2,9 @@ helper/
 weixin/WeChatRobot/Debug/
 weixin/Debug/
 weixin/.vs/
-weixin/Release/
 weixin/WeChatRobot/Release/
 daimeng.log
 .idea/
 weixin/WeChatRobot/WxUserLists.txt
+weixin/Release/WeChatRobot.pdb
+weixin/Release/log.txt
