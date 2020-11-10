@@ -11,24 +11,29 @@ import (
 	"xiaodaimeng/public"
 )
 
-var FriendsWeiXinId = []string{"wxid_ppiqsunhwmho22", "wxid_dppjrkktwdfd22", "wxid_ch5ql4b1uh2v22", "wxid_u3q162gfuq8k22", "wxid_vw6bngu8c4o721", "wxid_azmds1whb7r212", "wxid_humu0ux5uz5622"}
+type SystemWxId struct {
+	MaxAdminWxId         string   `json:"max_admin_wx_id"`         //最大的微信管理员
+	NeedNoticeUpdateList []string `json:"need_notice_update_list"` //需要通知更新信息的id
+}
 
-//var FriendsWeiXinId = []string{"wxid_u3q162gfuq8k22", "wxid_azmds1whb7r212"}
-var AdminWeiXinId = []string{"Conan444444164", "wxid_azmds1whb7r212"}
-
-const MaxAdminId = "wxid_u3q162gfuq8k22"
-
-var NeedSendUpdateList = []string{"wxid_ppiqsunhwmho22", MaxAdminId} //需要通知更新的名单
-var DrinkWaterList = []string{"wxid_ppiqsunhwmho22", MaxAdminId}     //需要提醒喝水的列表
-var MaxAdminIds = []string{MaxAdminId}
+var SystemWxIdList SystemWxId
 
 //初始化一些json数据
 func init() {
+	//初始化微信id
+	wxIdPtr, _ := os.Open("data/wxIds.json")
+	defer wxIdPtr.Close()
+	decoder := json.NewDecoder(wxIdPtr)
+	err := decoder.Decode(&SystemWxIdList)
+	if err != nil {
+		public.Printf("微信id解析失败，", err.Error())
+	}
+
 	//初始化表情
 	emojiPtr, _ := os.Open("data/emoji.json")
 	defer emojiPtr.Close()
-	decoder := json.NewDecoder(emojiPtr)
-	err := decoder.Decode(&emoji)
+	decoder = json.NewDecoder(emojiPtr)
+	err = decoder.Decode(&emoji)
 	if err != nil {
 		public.Printf("表情解码失败，", err.Error())
 	}
@@ -56,7 +61,7 @@ func IsBlackMsg(msg Msg) bool {
 
 //判断是不是admin
 func IsAdmin(msg Msg) bool {
-	return isContains(AdminWeiXinId, msg.MsgSender) || isContains(AdminWeiXinId, msg.MsgSender)
+	return isContains([]string{SystemWxIdList.MaxAdminWxId}, msg.MsgSender)
 }
 
 func isContains(father []string, son string) bool {

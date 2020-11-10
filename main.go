@@ -50,11 +50,7 @@ func main() {
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 
-	if !public.ConfigData.IsDebug {
-		controllor.DoTimedTasks(controllor.NeedSendUpdateList, "小呆萌开机了")
-	}else{
-		controllor.DoTimedTasks(controllor.MaxAdminIds, "小呆萌开机了")
-	}
+	controllor.DoTimedTasks(controllor.SystemWxIdList.NeedNoticeUpdateList, "小呆萌开机了")
 
 	for {
 		select {

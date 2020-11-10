@@ -8,13 +8,8 @@ import (
 	"xiaodaimeng/public"
 )
 
-
-
 const (
-	sayGoodNightText = "睡觉啦，晚安~"
-	weiBoSignText    = "新浪要签到啦~"
-	drinkWaterText   = "小宝贝，要喝水啦~"
-	curriculumText   = "接下来的课程是： "
+	curriculumText = "接下来的课程是： "
 )
 
 type CurriculumContent struct {
@@ -23,27 +18,44 @@ type CurriculumContent struct {
 	Number    int    `json:"number"`
 }
 
+type TimedTasks struct {
+	Time string   `json:"time"`
+	Msg  string   `json:"msg"`
+	wxId []string `json:"wx_id"`
+}
+
 var Curriculum []CurriculumContent
+var TimedTasksList []TimedTasks
 
 func init() {
 	c := cron.New()
-	//晚安
-	c.AddFunc("00 00 00 * * ?", func() {
-		DoTimedTasks(FriendsWeiXinId, sayGoodNightText)
-	})
-	//新浪签到
-	c.AddFunc("00 00 22 * * ?", func() {
-		DoTimedTasks(MaxAdminIds, weiBoSignText)
-	})
-	//要喝水啦
-	c.AddFunc("0 0 08,09,10,11,12,13,14,15,16,17,18,19,20,21,22 * * ?", func() {
-		DoTimedTasks(DrinkWaterList, drinkWaterText)
-	})
+
+	//一些定时任务
+	timedTasksPtr, _ := os.Open("data/timedTasks.json")
+	defer timedTasksPtr.Close()
+	decoder := json.NewDecoder(timedTasksPtr)
+	err := decoder.Decode(&TimedTasksList)
+	if err != nil {
+		public.Printf("定时任务解析失败，", err)
+	} else {
+		var wg sync.WaitGroup
+		for _, tt := range TimedTasksList {
+			wg.Add(1)
+			go func(curr TimedTasks) {
+				c.AddFunc(curr.Time, func() {
+					DoTimedTasks(curr.wxId, curr.Msg)
+				})
+				wg.Done()
+			}(tt)
+		}
+		wg.Wait()
+	}
+
 	//课程
 	filePtr, _ := os.Open("data/curriculum.json")
 	defer filePtr.Close()
-	decoder := json.NewDecoder(filePtr)
-	err := decoder.Decode(&Curriculum)
+	decoder = json.NewDecoder(filePtr)
+	err = decoder.Decode(&Curriculum)
 	if err != nil {
 		public.Error("课程解码失败，", err)
 	} else {
@@ -52,7 +64,7 @@ func init() {
 			wg.Add(1)
 			go func(curr CurriculumContent) {
 				c.AddFunc(curr.StartTime, func() {
-					DoTimedTasks(AdminWeiXinId, curriculumText+curr.Name)
+					DoTimedTasks([]string{SystemWxIdList.MaxAdminWxId}, curriculumText+curr.Name)
 				})
 				wg.Done()
 			}(curriculum)
