@@ -39,7 +39,7 @@ func main() {
 		for {
 			_, message, err := c.ReadMessage()
 			if err != nil {
-				public.Printf("read:", err)
+				public.Error("read:", err)
 				return
 			}
 			public.Debug("recv: ", string(message))

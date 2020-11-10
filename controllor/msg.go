@@ -2,7 +2,6 @@ package controllor
 
 import (
 	"encoding/json"
-	"github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -10,6 +9,7 @@ import (
 	"sync"
 	"time"
 	"xiaodaimeng/public"
+	"github.com/dgrijalva/jwt-go"
 )
 
 // {"times":"2020-11-04 08-32-33","type":"文字","source":"群消息","wxid":"22925504714@chatroom","msgSender":"wxid_azmds1whb7r212","content":"啊"}
@@ -203,7 +203,7 @@ func SendMsg(wxId string, content string) {
 		public.Error("\nSendMsg Marshal RMsg error: ", err.Error())
 		return
 	}
-	//Printf("\n下来了")
+	public.Debug(string(bRMsg))
 	RWsMsg = make(chan []byte)
 	RWsMsg <- bRMsg
 	defer lock.Unlock()
