@@ -2,6 +2,7 @@ package controllor
 
 import (
 	"encoding/json"
+	"github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -9,7 +10,6 @@ import (
 	"sync"
 	"time"
 	"xiaodaimeng/public"
-	"github.com/dgrijalva/jwt-go"
 )
 
 // {"times":"2020-11-04 08-32-33","type":"文字","source":"群消息","wxid":"22925504714@chatroom","msgSender":"wxid_azmds1whb7r212","content":"啊"}

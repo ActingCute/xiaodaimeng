@@ -6,6 +6,10 @@
  
    set GOPROXY=https://goproxy.cn
    
+## vendor
+
+    go mod vendor   
+   
 ## 配置文件
 
    go run main.go -c="data/config.json"

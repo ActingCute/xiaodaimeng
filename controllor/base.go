@@ -56,7 +56,7 @@ func GenerateRangeNum(min, max int) int {
 
 //判断是不是被拉黑，是就不要傻傻的回复了，别人都拉黑了呢/或者是红包，不需要理会啦
 func IsBlackMsg(msg Msg) bool {
-	return strings.Index(msg.Content, "或系统消息") != -1
+	return strings.Index(msg.Content, "或系统消息") != -1 || strings.Index(msg.Content, "请在手机上查看") != -1
 }
 
 //判断是不是admin

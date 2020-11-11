@@ -1,0 +1,4 @@
+[1110/175959:INFO:exception_record.cc(518)] [QB]Process ID: 6228 Type: 1
+[1110/175959:INFO:exception_record.cc(518)] [QB]Process ID: 940 Type: 3
+[1110/175959:ERROR:angle_platform_impl.cc(33)] ANGLE Display::initialize error 5: DXGI 1.2 required to present to HWNDs owned by another process.
+[1110/175959:ERROR:gl_surface_egl.cc(598)] eglInitialize D3D11 failed with error EGL_NOT_INITIALIZED, trying next display type

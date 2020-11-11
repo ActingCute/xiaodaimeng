@@ -1,26 +1,39 @@
 package models
 
 import (
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/go-xorm/xorm"
+	//_ "github.com/go-sql-driver/mysql"
+	"database/sql"
+	"fmt"
+	_ "github.com/mattn/go-sqlite3"
 	"xiaodaimeng/public"
 )
 
-var Mysql *xorm.Engine
 var DBOk = false
+var DB = new(sql.DB)
 
-var SQL = public.ConfigData.Mysql
-
-func InitMysql() {
-
+func InitDB() {
+	public.Debug("打开数据表")
 	var err error
-	dataSourceName := SQL.User + ":" + SQL.Password + "@tcp(" + SQL.Host + ":" + SQL.Port + ")/" + SQL.Table + "?charset=utf8&parseTime=true&loc=Local"
-
-	Mysql, err = xorm.NewEngine("mysql", dataSourceName)
+	DB, err = sql.Open("sqlite3", "xiaodaimeng.db")
 	if err != nil {
-		public.Error("数据库连接失败:", err)
+		public.Error(err)
 		return
-	} else {
-		public.Debug("数据库连接ok:")
 	}
+
+	fmt.Println("生成数据表")
+	sqlTable := `
+		CREATE TABLE IF NOT EXISTS "user" (
+		   "uid" INTEGER PRIMARY KEY AUTOINCREMENT,
+		   "wx_id" VARCHAR(64) NULL,
+		   "created" TIMESTAMP default (datetime('now', 'localtime'))  
+		);
+-- 		CREATE TABLE IF NOT EXISTS "userdeatail" (
+-- 		   "uid" INT(10) NULL,
+-- 		   "intro" TEXT NULL,
+-- 		   "profile" TEXT NULL,
+-- 		   PRIMARY KEY (uid)
+-- 		);
+		   `
+	_,err = DB.Exec(sqlTable)
+	public.Error(err)
 }

@@ -14,7 +14,7 @@ import (
 )
 
 func init() {
-	models.InitMysql()
+	models.InitDB()
 	//初始化日志文件
 	file := "daimeng" + ".log"
 	logFile, err := os.OpenFile(file, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0766)
@@ -50,7 +50,9 @@ func main() {
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 
-	controllor.DoTimedTasks(controllor.SystemWxIdList.NeedNoticeUpdateList, "小呆萌开机了")
+	if !public.ConfigData.IsDebug {
+		controllor.DoTimedTasks(controllor.SystemWxIdList.NeedNoticeUpdateList, "小呆萌开机了")
+	}
 
 	for {
 		select {
