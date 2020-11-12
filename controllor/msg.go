@@ -115,7 +115,7 @@ func Handle(bMsg []byte) {
 	//判断是不是表情，是就用表情回复
 	if msg.Type == "表情" {
 		if len(emoji) > 1 {
-			key := GenerateRangeNum(0, len(emoji)-1)
+			key := public.GenerateRangeNum(0, len(emoji)-1)
 			if key == oldEmojiKey {
 
 				if key == len(emoji)-1 {

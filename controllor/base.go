@@ -4,10 +4,8 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
-	"math/rand"
 	"os"
 	"strings"
-	"time"
 	"xiaodaimeng/public"
 )
 
@@ -47,12 +45,6 @@ func init() {
 	}
 }
 
-//两个数之间的随机数
-func GenerateRangeNum(min, max int) int {
-	rand.Seed(time.Now().Unix())
-	randNum := rand.Intn(max-min) + min
-	return randNum
-}
 
 //判断是不是被拉黑，是就不要傻傻的回复了，别人都拉黑了呢/或者是红包，不需要理会啦
 func IsBlackMsg(msg Msg) bool {

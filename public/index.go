@@ -5,8 +5,10 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"runtime"
+	"time"
 )
 
 type Config struct {
@@ -91,4 +93,12 @@ func getCaller(skip int) (string, int) {
 		}
 	}
 	return file, line
+}
+
+
+//两个数之间的随机数
+func GenerateRangeNum(min, max int) int {
+	rand.Seed(time.Now().Unix())
+	randNum := rand.Intn(max-min) + min
+	return randNum
 }

@@ -1,53 +1,36 @@
 package models
 
 import (
-	//_ "github.com/go-sql-driver/mysql"
-	"database/sql"
-	"fmt"
+	"github.com/go-xorm/xorm"
 	_ "github.com/mattn/go-sqlite3"
+
 	"xiaodaimeng/public"
 )
 
 var DBOk = false
-var DB = new(sql.DB)
+var DB = new(xorm.Engine)
 
 func InitDB() {
-	public.Debug("打开数据表")
+	public.Debug("连接数据表")
 	var err error
-	DB, err = sql.Open("sqlite3", "xiaodaimeng.db")
+	DB, err = xorm.NewEngine("sqlite3", "./xiaodaimeng.db")
 	if err != nil {
 		public.Error(err)
 		return
 	}
 
-	fmt.Println("生成数据表")
-	sqlTable := `
-		CREATE TABLE IF NOT EXISTS "user" (
-		   "uid" INTEGER PRIMARY KEY AUTOINCREMENT,
-		   "wx_id" VARCHAR(64) NOT NULL,
-		   "created" TIMESTAMP default (datetime('now', 'localtime'))  
-		);
-		CREATE TABLE IF NOT EXISTS "work" (
-		   "wid" INTEGER PRIMARY KEY AUTOINCREMENT,
-		   "wx_id" VARCHAR(64) NOT NULL,
-		   "type" TEXT NOT NULL,
-		   "msg" TEXT NOT NULL,
-		   "created" TIMESTAMP default (datetime('now', 'localtime'))
---		   PRIMARY KEY (wid)
-		);
-		   `
-	_, err = DB.Exec(sqlTable)
+	err = DB.Sync2(new(Work))
+
 	if err != nil {
-		DBOk = false
 		public.Error(err)
-	}else{
-		DBOk = true
+		return
 	}
 
 	work := Work{
-		WxId: "test",
-		Type: "type",
-		Msg:  "okk",
+		WxId:  "test",
+		Type:  "type",
+		Msg:   "okk",
+		Other: "pppp",
 	}
 	InsertWork(&work)
 	public.Debug(work)

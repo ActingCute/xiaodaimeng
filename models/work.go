@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"time"
-	"xiaodaimeng/public"
 )
 
 //"wid" INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -17,36 +16,19 @@ type Work struct {
 	WxId    string    `json:"wx_id"`
 	Type    string    `json:"type"`
 	Msg     string    `json:"msg"`
+	Other   string    `json:"other"`
 	Created time.Time `json:"created"`
 }
 
 func SelectWork(work *Work) error {
 	if DBOk {
-		rows, err := DB.Query("SELECT * FROM work ")
-			//where `wx_id` = ? and `type` = ? and `msg` = ?", work.WxId, work.Type, work.Msg)
-		for rows.Next() {
-			err = rows.Scan(work)
-			if err != nil {
-				public.Error(err)
-			}
-		}
-		return err
+		DB.Table("work").Where("wx_id=? and type = ? and msg = ?", work.WxId, work.Type, work.Msg).Get(work)
+		return nil
 	}
 	return errors.New("数据库链接失败")
 }
 
 func InsertWork(work *Work) error {
-	stmt, err := DB.Prepare("INSERT INTO work(wx_id, type, msg) values(?,?,?)")
-
-	if err != nil {
-		return err
-	}
-
-	_, err = stmt.Exec(work.WxId, work.Type, work.Msg)
-
-	if err != nil {
-		return err
-	}
-
+	err := DB.Table("work").Insert()
 	return SelectWork(work)
 }
