@@ -36,6 +36,19 @@ func InitDB() {
 --		   PRIMARY KEY (wid)
 		);
 		   `
-	_,err = DB.Exec(sqlTable)
-	public.Error(err)
+	_, err = DB.Exec(sqlTable)
+	if err != nil {
+		DBOk = false
+		public.Error(err)
+	}else{
+		DBOk = true
+	}
+
+	work := Work{
+		WxId: "test",
+		Type: "type",
+		Msg:  "okk",
+	}
+	InsertWork(&work)
+	public.Debug(work)
 }

@@ -38,6 +38,7 @@ func init() {
 	err := decoder.Decode(&Menu)
 	if err != nil {
 		public.Printf("菜单文件解码失败，", err.Error())
+		return
 	}
 	public.Debug("about : ", Menu.About)
 	for i, f := range Menu.Menu {
