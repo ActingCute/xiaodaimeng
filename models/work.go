@@ -12,12 +12,12 @@ import (
 //"created" TIMESTAMP default (datetime('now', 'localtime'))
 
 type Work struct {
-	Wid     int       `json:"wid"`
-	WxId    string    `json:"wx_id"`
-	Type    string    `json:"type"`
-	Msg     string    `json:"msg"`
-	Other   string    `json:"other"`
-	Created time.Time `json:"created"`
+	Wid     int       `xorm:"int(64)  AUTO_INCREMENT " json:"wid"`
+	WxId    string    `xorm:"varchar(50) NOT NULL" json:"wx_id"`
+	Type    string    `xorm:"varchar(50) NOT NULL"json:"type"`
+	Msg     string    `xorm:"varchar(50) NULL "json:"msg"`
+	Other   string    `xorm:"varchar(50) NULL "json:"other"`
+	Created time.Time `xorm:"created" json:"created"`
 }
 
 func SelectWork(work *Work) error {
@@ -29,6 +29,9 @@ func SelectWork(work *Work) error {
 }
 
 func InsertWork(work *Work) error {
-	err := DB.Table("work").Insert()
+	_, err := DB.Table("work").Insert(work)
+	if err != nil {
+		return err
+	}
 	return SelectWork(work)
 }
