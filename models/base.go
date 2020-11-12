@@ -24,15 +24,17 @@ func InitDB() {
 	sqlTable := `
 		CREATE TABLE IF NOT EXISTS "user" (
 		   "uid" INTEGER PRIMARY KEY AUTOINCREMENT,
-		   "wx_id" VARCHAR(64) NULL,
+		   "wx_id" VARCHAR(64) NOT NULL,
 		   "created" TIMESTAMP default (datetime('now', 'localtime'))  
 		);
--- 		CREATE TABLE IF NOT EXISTS "userdeatail" (
--- 		   "uid" INT(10) NULL,
--- 		   "intro" TEXT NULL,
--- 		   "profile" TEXT NULL,
--- 		   PRIMARY KEY (uid)
--- 		);
+		CREATE TABLE IF NOT EXISTS "work" (
+		   "wid" INTEGER PRIMARY KEY AUTOINCREMENT,
+		   "wx_id" VARCHAR(64) NOT NULL,
+		   "type" TEXT NOT NULL,
+		   "msg" TEXT NOT NULL,
+		   "created" TIMESTAMP default (datetime('now', 'localtime'))
+--		   PRIMARY KEY (wid)
+		);
 		   `
 	_,err = DB.Exec(sqlTable)
 	public.Error(err)
