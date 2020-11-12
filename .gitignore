@@ -9,3 +9,5 @@ weixin/WeChatRobot/WxUserLists.txt
 weixin/Release/WeChatRobot.pdb
 weixin/Release/log.txt
 weixin/Release/debug.log
+go.mod
+go.sum
