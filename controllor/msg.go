@@ -103,8 +103,8 @@ func Handle(bMsg []byte) {
 		return
 	}
 	//自己发的，不用回复,已经拉黑的，不用回复
-	if IsAdmin(msg) || IsBlackMsg(msg) {
-		public.Printf("主动发出去的信息/红包 不回复")
+	if IsAdmin(msg) || IsBlackMsg(msg) || IsInWork(msg.WxId) {
+		public.Printf("在工作名单中/红包 不回复")
 		return
 	}
 	//判断是不是菜单函数

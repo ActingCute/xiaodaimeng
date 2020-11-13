@@ -235,13 +235,14 @@ func UnDraw(msg Msg) {
 		return
 	}
 
-	linQianType := linQianInfo[0]            //签类型
+	linQianType := linQianInfo[0]             //签类型
 	key, err1 := strconv.Atoi(linQianInfo[1]) //第几签
 	if err1 != nil {
 		public.Error(err1)
 		SendMsg(msg.WxId, FailText)
 		return
 	}
+	InWork[msg.WxId] = true //加入工作名单
 	linQianList := LuckyDataList.GuanYin
 	if linQianType == "YueLao" {
 		linQianList = LuckyDataList.YueLao
@@ -250,12 +251,15 @@ func UnDraw(msg Msg) {
 	linQian := linQianList[key]
 
 	var wg sync.WaitGroup
-	for _, lq := range linQian.Content {
+	for i, lq := range linQian.Content {
 		wg.Add(1)
-		go func(llqq string) {
+		go func(llqq string, ii int) {
 			SendMsg(msg.WxId, llqq)
+			if ii == len(linQian.Content)-1 {
+				InWork[msg.WxId] = false //移除工作名单
+			}
 			wg.Done()
-		}(lq)
+		}(lq, i)
 	}
 	wg.Wait()
 

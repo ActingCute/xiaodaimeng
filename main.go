@@ -43,6 +43,7 @@ func main() {
 				return
 			}
 			public.Debug("recv: ", string(message))
+
 			controllor.Handle(message)
 		}
 	}()

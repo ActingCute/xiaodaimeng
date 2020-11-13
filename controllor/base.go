@@ -15,9 +15,11 @@ type SystemWxId struct {
 }
 
 var SystemWxIdList SystemWxId
+var InWork map[string]bool //在工作中
 
 //初始化一些json数据
 func init() {
+	InWork = make(map[string]bool)
 	//初始化微信id
 	wxIdPtr, _ := os.Open("data/wxIds.json")
 	defer wxIdPtr.Close()
@@ -45,7 +47,6 @@ func init() {
 	}
 }
 
-
 //判断是不是被拉黑，是就不要傻傻的回复了，别人都拉黑了呢/或者是红包，不需要理会啦
 func IsBlackMsg(msg Msg) bool {
 	return strings.Index(msg.Content, "或系统消息") != -1 || strings.Index(msg.Content, "请在手机上查看") != -1
@@ -72,4 +73,16 @@ func md5V(str string) string {
 	h := md5.New()
 	h.Write([]byte(str))
 	return hex.EncodeToString(h.Sum(nil))
+}
+
+//是否在工作名单中
+//判断是不是菜单函数
+func IsInWork(wid string) bool {
+
+
+
+	if _, ok := InWork[wid]; ok {
+		return InWork[wid]
+	}
+	return false
 }
