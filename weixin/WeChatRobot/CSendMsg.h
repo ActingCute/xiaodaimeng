@@ -35,6 +35,7 @@ public:
 //消息结构体
 struct MessageStruct
 {
+	wchar_t mtype[2];
 	wchar_t wxid[40];
 	wchar_t content[MAX_PATH];
 };

@@ -134,7 +134,7 @@ void CSendMsg::OnBnClickedSend()
 
 void webSendMsg(MessageStruct* message)
 {
-	if (!message->content || !message->wxid)
+	if (!message->content || !message->wxid || !message->mtype)
 	{
 		return;
 	}
@@ -144,7 +144,7 @@ void webSendMsg(MessageStruct* message)
 	COPYDATASTRUCT MessageData;
 
 
-	MessageData.dwData = WM_SendTextMessage;
+	MessageData.dwData = (ULONG_PTR)message->mtype;
 
 
 	MessageData.cbData = sizeof(MessageStruct);

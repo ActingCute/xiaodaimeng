@@ -26,6 +26,7 @@ type Msg struct {
 type RMsg struct {
 	WxId    string `json:"m_wxid"`
 	Content string `json:"m_Content"`
+	MType   int    `json:"m_type"` //消息类型
 }
 
 type XiaoDaiMeng struct {
@@ -197,6 +198,7 @@ func SendMsg(wxId string, content string) {
 	var rMsg = RMsg{
 		WxId:    wxId,
 		Content: content,
+		MType:   WMSendTextMessage,
 	}
 	bRMsg, err := json.Marshal(rMsg)
 	if err != nil {

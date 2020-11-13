@@ -2,6 +2,9 @@ package controllor
 
 const (
 	SuccessCode = 6666
+	//下面的是跟微信助手约定好的
+	WMSendTextMessage = 5
+	WMSendImageMessage = 8
 )
 
 const (
