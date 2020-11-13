@@ -12,7 +12,7 @@ import (
 //"created" TIMESTAMP default (datetime('now', 'localtime'))
 
 type Work struct {
-	Wid     int       `xorm:"int(64)  AUTO_INCREMENT " json:"wid"`
+	Wid     int       `xorm:"int(20) pk not null autoincr 'wid'" json:"wid"`
 	WxId    string    `xorm:"varchar(50) NOT NULL" json:"wx_id"`
 	Type    string    `xorm:"varchar(50) NOT NULL"json:"type"`
 	Msg     string    `xorm:"varchar(50) NULL "json:"msg"`
