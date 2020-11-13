@@ -176,6 +176,8 @@ func Draw(msg Msg) {
 		Msg:  time.Now().Format("2006-01-02"),
 	}
 	err := models.SelectWork(&work)
+	public.Error(err)
+
 	if err != nil {
 		public.Error(err)
 		SendMsg(msg.WxId, FailText)
@@ -204,17 +206,6 @@ func Draw(msg Msg) {
 	//插入数据库
 	work.Other = linQianType + "/" + linQian.Key
 	go models.InsertWork(&work)
-
-	//var wg sync.WaitGroup
-	//for _, lq := range linQian.Content {
-	//	wg.Add(1)
-	//	go func(llqq string) {
-	//		SendMsg(msg.WxId, llqq)
-	//		wg.Done()
-	//	}(lq)
-	//}
-	//wg.Wait()
-
 }
 
 //解签

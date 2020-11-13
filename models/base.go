@@ -26,12 +26,5 @@ func InitDB() {
 		return
 	}
 
-	work := Work{
-		WxId:  "test",
-		Type:  "type",
-		Msg:   "okk",
-		Other: "pppp",
-	}
-	InsertWork(&work)
-	public.Debug(work)
+	DBOk = true
 }

@@ -11,3 +11,4 @@ weixin/Release/log.txt
 weixin/Release/debug.log
 go.mod
 go.sum
+xiaodaimeng.db
