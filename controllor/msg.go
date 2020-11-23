@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -14,19 +15,26 @@ import (
 
 // {"times":"2020-11-04 08-32-33","type":"文字","source":"群消息","wxid":"22925504714@chatroom","msgSender":"wxid_azmds1whb7r212","content":"啊"}
 
+//{
+//id:getid(),
+//type:CHATROOM_MEMBER_NICK,
+//content:'5325308046@chatroom',//chatroom id 23023281066@chatroom  17339716569@chatroom
+////5325308046@chatroom
+////5629903523@chatroom
+//wxid:'ROOT'
+//  }
+
+//{"content":"","id":"","sender":"ROOT","srvid":1,"time":"2020-11-23 21:13:51","type":5005}
+
 type Msg struct {
-	Times     string `json:"times"`
-	Type      string `json:"type"`
-	Source    string `json:"source"`
+	Id        string `json:"id"`
+	Time      string `json:"time"`
+	Type      int    `json:"type"`
+	Sender    string `json:"sender"`
 	WxId      string `json:"wxid"`
 	MsgSender string `json:"msgSender"`
 	Content   string `json:"content"`
-}
-
-type RMsg struct {
-	WxId    string `json:"m_wxid"`
-	Content string `json:"m_Content"`
-	MType   int    `json:"m_type"` //消息类型
+	SrvId     int    `json:"srvid"`
 }
 
 type XiaoDaiMeng struct {
@@ -61,11 +69,15 @@ var lock sync.Mutex
 var oldEmojiKey = 0
 var problemList []ProblemList
 
+func getTimeId() string {
+	return strconv.FormatInt(time.Now().Unix(), 10)
+}
+
 func getToken(msg Msg) (tokenString string, err error) {
 
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := make(jwt.MapClaims)
-	claims["username"] = msg.WxId
+	claims["username"] = msg.Sender
 	claims["msg"] = msg.Content
 	token.Claims = claims
 	tokenString, err = token.SignedString([]byte(EncodingAESKey))
@@ -102,8 +114,16 @@ func Handle(bMsg []byte) {
 		public.Error("\nHandle Unmarshal error: ", err.Error())
 		return
 	}
+	//心跳
+	if msg.Type == HEART_BEAT {
+		return
+	}
+	//非文字消息
+	if msg.Type != RECV_TXT_MSG {
+		return
+	}
 	//自己发的，不用回复,已经拉黑的，不用回复
-	if IsAdmin(msg) || IsBlackMsg(msg) || IsInWork(msg.WxId) {
+	if IsAdmin(msg) || IsBlackMsg(msg) || IsInWork(msg.Sender) {
 		public.Printf("在工作名单中/红包 不回复")
 		return
 	}
@@ -114,28 +134,28 @@ func Handle(bMsg []byte) {
 		return
 	}
 	//判断是不是表情，是就用表情回复
-	if msg.Type == "表情" {
-		if len(emoji) > 1 {
-			key := public.GenerateRangeNum(0, len(emoji)-1)
-			if key == oldEmojiKey {
-
-				if key == len(emoji)-1 {
-					key = 0
-				}
-
-				if oldEmojiKey == 0 {
-					key = 1
-				} else {
-					key = 0
-				}
-				oldEmojiKey = key
-			}
-			go func(index int) {
-				SendMsg(msg.WxId, emoji[index].Cn)
-			}(key)
-		}
-		return
-	}
+	//if msg.Type == "表情" {
+	//	if len(emoji) > 1 {
+	//		key := public.GenerateRangeNum(0, len(emoji)-1)
+	//		if key == oldEmojiKey {
+	//
+	//			if key == len(emoji)-1 {
+	//				key = 0
+	//			}
+	//
+	//			if oldEmojiKey == 0 {
+	//				key = 1
+	//			} else {
+	//				key = 0
+	//			}
+	//			oldEmojiKey = key
+	//		}
+	//		go func(index int) {
+	//			SendMsg(msg.WxId, emoji[index].Cn)
+	//		}(key)
+	//	}
+	//	return
+	//}
 	//Printf("msg.Content:", msg.Content)
 	//机器人答案
 	GetAnswer(msg)
@@ -188,19 +208,19 @@ func GetAnswer(msg Msg) {
 	//Printf("\n", answer.Answer)
 
 	go func(a XiaoDaiMeng) {
-		SendMsg(a.FromUserName, a.Answer)
+		SendMsg(a.FromUserName, a.Answer, TXT_MSG)
 	}(answer)
 }
 
-func SendMsg(wxId string, content string) {
+func SendMsg(wxId string, content string, mType int) {
 	lock.Lock()
-	time.Sleep(time.Microsecond * 8)
-	var rMsg = RMsg{
+	var msg = Msg{
+		Id:      getTimeId(),
 		WxId:    wxId,
 		Content: content,
-		MType:   WMSendTextMessage,
+		Type:    mType,
 	}
-	bRMsg, err := json.Marshal(rMsg)
+	bRMsg, err := json.Marshal(msg)
 	if err != nil {
 		public.Error("\nSendMsg Marshal RMsg error: ", err.Error())
 		return

@@ -77,6 +77,6 @@ func init() {
 //处理定时任务
 func DoTimedTasks(wxIds []string, msg string) {
 	for _, wxId := range wxIds {
-		go SendMsg(wxId, msg)
+		go SendMsg(wxId, msg, TXT_MSG)
 	}
 }
