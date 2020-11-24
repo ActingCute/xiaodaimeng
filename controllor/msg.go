@@ -41,7 +41,35 @@ type XiaoDaiMeng struct {
 	AnsNodeId    int    `json:"ans_node_id"`
 	Answer       string `json:"answer"`
 	FromUserName string `json:"from_user_name"`
+	AnswerType   string `json:"answer_type"`
+	MoreInfo     MoreInfo `json:"more_info"`
 }
+
+type MoreInfo struct {
+	NewsAnsDetail string `json:"news_ans_detail"`
+}
+
+type MoreInfoData struct {
+	MoreInfo NewsData `json:"data"`
+}
+
+type NewsData struct {
+	NewsDocs []NewsDocs `json:"docs"`
+}
+
+type NewsDocs struct {
+	AbsL 		string `json:"abs_l"`
+	AbsM 		string `json:"abs_m"`
+	AbsS 		string `json:"abs_s"`
+	Cate1 		string `json:"cate1"`
+	Cate2 		string `json:"cate2"`
+	DocId 		string `json:"docid"`
+	Pubtime 	string `json:"pubtime"`
+	Shortcut	string `json:"shortcut"`
+	Srcfrom		string `json:"srcfrom"`
+	Title 		string `json:"title"`
+}
+
 
 type Emoji struct {
 	Cn  string `json:"cn"`
@@ -59,6 +87,8 @@ const (
 	EncodingAESKey  = "cid2xSztPaRWLTVktma1tsO3rY9cD0d5SVRRW3AWgk3"
 	OpenId          = "2X4xdKYO1kcByDWYZGqxgqqzi1zsQy"
 	Token           = "puppet_donut_50d6bf5cbd5cdfa7"
+
+	NewsAnswer = "news"
 )
 
 const urlStr string = "https://openai.weixin.qq.com/openapi/message/" + OpenId
@@ -202,6 +232,34 @@ func GetAnswer(msg Msg) {
 			picName := public.GetCurrentDirectory() + "/static/img/unknow/" + strconv.Itoa(index) + ".jpg"
 			public.Debug(picName)
 			SendMsg(msg.Sender, picName, PIC_MSG)
+			return
+		}
+	} else {
+		if answer.AnswerType == NewsAnswer {
+			//新闻
+			moreInfo := MoreInfoData{}
+			err  = json.Unmarshal([]byte(answer.MoreInfo.NewsAnsDetail),&moreInfo)
+			if err != nil {
+				public.Error("\nHandle Unmarshal NewsAnsDetail error: ", err.Error())
+				return
+			}
+			news := ""
+			for i,m := range moreInfo.MoreInfo.NewsDocs {
+				if i < 6 {
+					news += m.Cate1 + " " + m.Title + "\n\n"
+					news += m.AbsL
+
+					if i<4 {
+						news += "\n  -------------  \n"
+					}
+				}
+			}
+			public.Debug("\n\n\n\n\n\n\n\n",answer.MoreInfo.NewsAnsDetail)
+			if news != "" {
+				SendMsg(msg.Sender, news, TXT_MSG)
+			} else {
+				SendMsg(msg.Sender, FailText, TXT_MSG)
+			}
 			return
 		}
 	}
