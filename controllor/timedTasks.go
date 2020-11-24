@@ -21,7 +21,7 @@ type CurriculumContent struct {
 type TimedTasks struct {
 	Time string   `json:"time"`
 	Msg  string   `json:"msg"`
-	wxId []string `json:"wx_id"`
+	WxId []string `json:"wx_id"`
 }
 
 var Curriculum []CurriculumContent
@@ -35,15 +35,17 @@ func init() {
 	defer timedTasksPtr.Close()
 	decoder := json.NewDecoder(timedTasksPtr)
 	err := decoder.Decode(&TimedTasksList)
+
 	if err != nil {
 		public.Printf("定时任务解析失败，", err)
 	} else {
 		var wg sync.WaitGroup
 		for _, tt := range TimedTasksList {
+			public.Debug(tt)
 			wg.Add(1)
 			go func(curr TimedTasks) {
 				c.AddFunc(curr.Time, func() {
-					DoTimedTasks(curr.wxId, curr.Msg)
+					DoTimedTasks(curr.WxId, curr.Msg)
 				})
 				wg.Done()
 			}(tt)
