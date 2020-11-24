@@ -197,6 +197,11 @@ func GetAnswer(msg Msg) {
 			}
 		}
 		if !hasAnswer {
+			//随机回复图片
+			index := public.GenerateRangeNum(0,8) //
+			picName := public.GetCurrentDirectory() + "/static/img/unknow/" + strconv.Itoa(index) + ".jpg"
+			public.Debug(picName)
+			SendMsg(msg.Sender, picName, PIC_MSG)
 			return
 		}
 	}

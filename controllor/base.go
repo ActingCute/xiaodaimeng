@@ -78,9 +78,6 @@ func md5V(str string) string {
 //是否在工作名单中
 //判断是不是菜单函数
 func IsInWork(wid string) bool {
-
-
-
 	if _, ok := InWork[wid]; ok {
 		return InWork[wid]
 	}
