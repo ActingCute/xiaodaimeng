@@ -26,6 +26,9 @@ const (
 	NotDoneText = "还在开发中呢~"
 	HasDrawText = "啊！你今天已经抽了签啦~"
 	NotDrawText = "啊！你今天已经抽了签啦~"
+	XiaoDaiMengCried = "嘤嘤嘤,你就这么讨厌人家嘛~"
+	XiaoDaiMengLose = "嘤嘤嘤,你已经失去了小呆萌~"
+	XiaoDaiMengStay = "小呆萌一直在喔~"
 )
 
 const Self = "self"

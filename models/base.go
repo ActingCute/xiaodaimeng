@@ -19,10 +19,10 @@ func InitDB() {
 		return
 	}
 
-	err = DB.Sync2(new(Work))
+	err = DB.Sync2(new(Work),new(BlackList))
 
 	if err != nil {
-		public.Error(err)
+		public.Error("InitDB:",err)
 		return
 	}
 
