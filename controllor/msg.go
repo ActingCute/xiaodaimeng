@@ -35,6 +35,7 @@ type Msg struct {
 	MsgSender string `json:"msgSender"`
 	Content   string `json:"content"`
 	SrvId     int    `json:"srvid"`
+	Receiver  string `json:"receiver"`
 }
 
 type XiaoDaiMeng struct {
@@ -96,6 +97,7 @@ const urlStr string = "https://openai.weixin.qq.com/openapi/message/" + OpenId
 var RWsMsg chan []byte
 var emoji []Emoji
 var lock sync.Mutex
+var lockAnswer sync.Mutex
 var oldEmojiKey = 0
 var problemList []ProblemList
 
@@ -107,7 +109,7 @@ func getToken(msg Msg) (tokenString string, err error) {
 
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := make(jwt.MapClaims)
-	claims["username"] = msg.Sender
+	claims["username"] = GetSender(msg)
 	claims["msg"] = msg.Content
 	token.Claims = claims
 	tokenString, err = token.SignedString([]byte(EncodingAESKey))
@@ -153,7 +155,7 @@ func Handle(bMsg []byte) {
 		return
 	}
 	//自己发的，不用回复,已经拉黑的，不用回复
-	if IsAdmin(msg) || IsBlackMsg(msg) || IsInWork(msg.Sender) {
+	if msg.Sender == Self || IsAdmin(msg) || IsBlackMsg(msg) || IsInWork(msg.Sender) {
 		public.Printf("在工作名单中/红包 不回复")
 		return
 	}
@@ -192,6 +194,9 @@ func Handle(bMsg []byte) {
 }
 
 func GetAnswer(msg Msg) {
+	lockAnswer.Lock()
+	defer lockAnswer.Unlock()
+
 	token, err1 := getToken(msg)
 
 	if err1 != nil {
@@ -231,7 +236,7 @@ func GetAnswer(msg Msg) {
 			index := public.GenerateRangeNum(0,8) //
 			picName := public.GetCurrentDirectory() + "/static/img/unknow/" + strconv.Itoa(index) + ".jpg"
 			public.Debug(picName)
-			SendMsg(msg.Sender, picName, PIC_MSG)
+			SendMsg(GetReceiver(msg), picName, PIC_MSG)
 			return
 		}
 	} else {
@@ -256,9 +261,9 @@ func GetAnswer(msg Msg) {
 			}
 			public.Debug("\n\n\n\n\n\n\n\n",answer.MoreInfo.NewsAnsDetail)
 			if news != "" {
-				SendMsg(msg.Sender, news, TXT_MSG)
+				SendMsg(GetReceiver(msg), news, TXT_MSG)
 			} else {
-				SendMsg(msg.Sender, FailText, TXT_MSG)
+				SendMsg(GetReceiver(msg), FailText, TXT_MSG)
 			}
 			return
 		}
@@ -270,9 +275,20 @@ func GetAnswer(msg Msg) {
 	answer.Answer = strings.Replace(answer.Answer, "小微", XiaoDaiMengName, -1)
 	//Printf("\n", answer.Answer)
 
-	go func(a XiaoDaiMeng) {
-		SendMsg(a.FromUserName, a.Answer, TXT_MSG)
-	}(answer)
+	go SendMsg(GetReceiver(msg), answer.Answer, TXT_MSG)
+}
+
+//获取发送方,区别在群里说话
+func GetSender(msg Msg) string {
+	return msg.Receiver + "_" + msg.Sender
+}
+
+//获取需要回复的人或群
+func GetReceiver(msg Msg) string {
+	if msg.Receiver != Self { //回复群
+		return msg.Receiver
+	}
+	return msg.Sender //回复发送方
 }
 
 func SendMsg(wxId string, content string, mType int) {

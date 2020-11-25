@@ -27,3 +27,5 @@ const (
 	HasDrawText = "啊！你今天已经抽了签啦~"
 	NotDrawText = "啊！你今天已经抽了签啦~"
 )
+
+const Self = "self"

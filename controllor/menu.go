@@ -79,6 +79,9 @@ func init() {
 			case "解签":
 				ff = UnDraw
 				break
+			case "新闻":
+				ff = News
+				break
 			}
 			key := strconv.Itoa(i)
 			menuFunc[md5V(strings.ToUpper(funcNames[0]))] = ff
@@ -109,7 +112,7 @@ func IsMenuFunc(ff string) func(msg Msg) {
 //帮助
 func Help(msg Msg) {
 	if MenuText != "" {
-		SendMsg(msg.Sender, MenuText, TXT_MSG)
+		SendMsg(GetReceiver(msg), MenuText, TXT_MSG)
 	} else {
 		//没有菜单
 		GetAnswer(msg)
@@ -119,7 +122,7 @@ func Help(msg Msg) {
 //关于
 func About(msg Msg) {
 	public.Debug("About")
-	SendMsg(msg.Sender, Menu.About, TXT_MSG)
+	SendMsg(GetReceiver(msg), Menu.About, TXT_MSG)
 }
 
 //成语接龙
@@ -132,19 +135,19 @@ func Cyjl(msg Msg) {
 //自定义问题答案
 func Pa(msg Msg) {
 	public.Debug("Pa")
-	SendMsg(msg.Sender, NotDoneText, TXT_MSG)
+	SendMsg(GetReceiver(msg), NotDoneText, TXT_MSG)
 }
 
 //日记
 func Diary(msg Msg) {
 	public.Debug("Diary")
-	SendMsg(msg.Sender, NotDoneText, TXT_MSG)
+	SendMsg(GetReceiver(msg), NotDoneText, TXT_MSG)
 }
 
 //待办事项
 func WTodo(msg Msg) {
 	public.Debug("Todo")
-	SendMsg(msg.Sender, NotDoneText, TXT_MSG)
+	SendMsg(GetReceiver(msg), NotDoneText, TXT_MSG)
 }
 
 //获取更新信息
@@ -162,7 +165,7 @@ func GetUpdateInfo(msg Msg) {
 
 	updateInfo = "当前版本：" + strconv.Itoa(Menu.Update.Version) + "\n" + updateInfo
 
-	SendMsg(msg.Sender, updateInfo, TXT_MSG)
+	SendMsg(GetReceiver(msg), updateInfo, TXT_MSG)
 }
 
 //抽签
@@ -175,16 +178,15 @@ func Draw(msg Msg) {
 		Msg:  time.Now().Format("2006-01-02"),
 	}
 	err := models.SelectWork(&work)
-	public.Error(err)
 
 	if err != nil {
 		public.Error(err)
-		SendMsg(msg.Sender, FailText, TXT_MSG)
+		SendMsg(GetReceiver(msg), FailText, TXT_MSG)
 		return
 	}
 	if work.Wid > 0 {
 		//您今天已经抽了签
-		SendMsg(msg.Sender, HasDrawText, TXT_MSG)
+		SendMsg(GetReceiver(msg), HasDrawText, TXT_MSG)
 		return
 	}
 	//随机签的类型
@@ -200,7 +202,7 @@ func Draw(msg Msg) {
 	key = public.GenerateRangeNum(0, lenLinQian)
 	linQian := linQianList[key]
 
-	SendMsg(msg.Sender, linQian.Number, TXT_MSG)
+	SendMsg(GetReceiver(msg), linQian.Number, TXT_MSG)
 
 	//插入数据库
 	work.Other = linQianType + "/" + linQian.Key
@@ -219,18 +221,18 @@ func UnDraw(msg Msg) {
 	err := models.SelectWork(&work)
 	if err != nil {
 		public.Error(err)
-		SendMsg(msg.Sender, FailText, TXT_MSG)
+		SendMsg(GetReceiver(msg), FailText, TXT_MSG)
 		return
 	}
 	if work.Wid < 1 {
 		//您今天还没抽签喔
-		SendMsg(msg.Sender, NotDrawText, TXT_MSG)
+		SendMsg(GetReceiver(msg), NotDrawText, TXT_MSG)
 		return
 	}
 	linQianInfo := strings.Split(work.Other, "/")
 
 	if len(linQianInfo) < 2 {
-		SendMsg(msg.Sender, FailText, TXT_MSG)
+		SendMsg(GetReceiver(msg), FailText, TXT_MSG)
 		return
 	}
 
@@ -238,7 +240,7 @@ func UnDraw(msg Msg) {
 	key, err1 := strconv.Atoi(linQianInfo[1]) //第几签
 	if err1 != nil {
 		public.Error(err1)
-		SendMsg(msg.Sender, FailText, TXT_MSG)
+		SendMsg(GetReceiver(msg), FailText, TXT_MSG)
 		return
 	}
 	InWork[msg.Sender] = true //加入工作名单
@@ -253,16 +255,27 @@ func UnDraw(msg Msg) {
 	for i, lq := range linQian.Content {
 		isSend := false
 		if len(lcStr+lq) > 2000 {
-			SendMsg(msg.Sender, lcStr, TXT_MSG)
+			SendMsg(GetReceiver(msg), lcStr, TXT_MSG)
 			lcStr = ""
 			isSend = true
 		}
 		lcStr += lq + "\n"
 		if i == len(linQian.Content)-1 {
 			if !isSend {
-				SendMsg(msg.Sender, lcStr, TXT_MSG)
+				SendMsg(GetReceiver(msg), lcStr, TXT_MSG)
 			}
 			InWork[msg.Sender] = false //移除工作名单
 		}
 	}
+}
+
+//新闻 News
+func News(msg Msg) {
+	public.Debug("News")
+	GetAnswer(msg)
+}
+
+//关闭自动聊天
+func OffCatch()  {
+	
 }

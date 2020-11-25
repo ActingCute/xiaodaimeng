@@ -2,7 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/src/github.com/dgrijalva/jwt-go" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/src/github.com/robfig/cron" vcs="Git" />
   </component>
 </project>

@@ -8,7 +8,9 @@
     "日记/diary",
     "待办事项/todo",
     "抽签/draw",
-    "解签/unDraw"
+    "解签/unDraw",
+    "新闻/news",
+    "真人陪聊/xiaohui"
   ],
   "about": "智障机器人小呆萌啦！",
   "update": {
