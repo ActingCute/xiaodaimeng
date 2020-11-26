@@ -146,6 +146,7 @@ func Handle(bMsg []byte) {
 		public.Error("\nHandle Unmarshal error: ", err.Error())
 		return
 	}
+
 	//心跳
 	if msg.Type == HEART_BEAT {
 		return
@@ -159,10 +160,30 @@ func Handle(bMsg []byte) {
 		public.Printf("在工作名单中/红包 不回复")
 		return
 	}
+
+
 	//判断是不是菜单函数
 	if ff := IsMenuFunc(msg.Content); ff != nil {
 		public.Debug("是菜单函数")
+		if msg.Content == "0" || msg.Content == "帮助" || msg.Content == "h" || msg.Content == "11" || msg.Content == "你滚" || msg.Content == "xiaodaimeng" {
+			ff(msg)
+			return
+		}
+
+		if IsInBlacklist(msg){
+			public.Debug("已经关闭聊天")
+			//是否获取帮助
+			SendMsg(GetReceiver(msg), XiaoDaiMengSleep, TXT_MSG)
+			return
+		}
+
 		ff(msg)
+		return
+	}
+	//黑名单
+	if IsInBlacklist(msg){
+		public.Debug("已经关闭聊天")
+		//是否获取帮助
 		return
 	}
 	//判断是不是表情，是就用表情回复
