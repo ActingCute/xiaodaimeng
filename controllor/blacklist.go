@@ -44,13 +44,13 @@ func OnCatch(msg Msg)  {
 	}
 	bl := models.BlackList{
 		WxId:    sid,
-		In:      2}
+		In:     2}
 	err := models.UpdateBlackList(&bl)
 	if err != nil {
 		SendMsg(rid, FailText, TXT_MSG)
 		public.Error("OnCatch:",err)
 		return
 	}
-	Blacklist[sid] = false
-	SendMsg(rid, XiaoDaiMengLose, TXT_MSG)
+	Blacklist[sid] = true
+	SendMsg(rid, XiaoDaiMengStay, TXT_MSG)
 }

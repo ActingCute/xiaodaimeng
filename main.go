@@ -23,6 +23,7 @@ func init() {
 	}
 	log.SetOutput(logFile) // 将文件设置为log输出的文件
 	log.SetPrefix("")
+	defer logFile.Close()
 }
 
 func main() {

@@ -1,6 +1,7 @@
 {
   "is_debug": true,
   "ws_orgin" : "localhost:5555",
+  "use_mysql": false,
   "mysql":{
     "table": "xiaodaimeng",
     "host": "127.0.0.1",

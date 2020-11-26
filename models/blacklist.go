@@ -25,7 +25,8 @@ func SelectBlackList(list *[]BlackList) error {
 func GetBlackList(list *BlackList) (has bool,err error) {
 	if DBOk {
 		public.Debug("GetBlackList WxId : ",list.WxId)
-		has,err  = DB.Table("black_list").Where("wx_id=?",list.WxId).Get(list)
+		has,err  = DB.Table("black_list").Where("wx_id='wxid_u3q162gfuq8k22'").Get(list)
+		public.Debug(list)
 		if err != nil {
 			public.Error(err)
 		}
@@ -63,8 +64,7 @@ func UpdateBlackList(backList *BlackList) error {
 			In:      backList.In,
 		}
 		//判断是否存在，不存在就插入
-		public.Debug("UpdateBlackList 1 :", bl.WxId, bl.In)
-		public.Debug("UpdateBlackList 2 :", backList.WxId, backList.In)
+		public.Debug("UpdateBlackList :", backList.WxId)
 		has,err := GetBlackList(bl)
 		if err != nil {
 			public.Error(err)

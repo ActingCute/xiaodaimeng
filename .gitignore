@@ -15,3 +15,5 @@ go.sum
 xiaodaimeng.db
 weixin/wechat-bot-3.4.7.66/
 scpWinserver.bat
+data/config1.json
+sql.log

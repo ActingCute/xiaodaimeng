@@ -14,9 +14,10 @@ import (
 )
 
 type Config struct {
-	IsDebug bool      `json:"is_debug"`
-	WsOrgin string    `json:"ws_orgin"`
-	Mysql   SQLConfig `json:"mysql"`
+	IsDebug  bool      `json:"is_debug"`
+	WsOrgin  string    `json:"ws_orgin"`
+	Mysql    SQLConfig `json:"mysql"`
+	UseMysql bool      `json:"use_mysql"`
 }
 
 type SQLConfig struct {
