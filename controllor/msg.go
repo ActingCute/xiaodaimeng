@@ -165,13 +165,13 @@ func Handle(bMsg []byte) {
 	//判断是不是菜单函数
 	if ff := IsMenuFunc(msg.Content); ff != nil {
 		public.Debug("是菜单函数")
-		if msg.Content == "0" || msg.Content == "帮助" || msg.Content == "h" || msg.Content == "11" || msg.Content == "你滚" || msg.Content == "xiaodaimeng" {
+		if msg.Content == "0" || msg.Content == "帮助" || msg.Content == "h" || msg.Content == "11" || msg.Content == "小呆萌" || msg.Content == "xiaodaimeng" || msg.Content == "10" || msg.Content == "小灰" || msg.Content == "xiaohui" {
 			ff(msg)
 			return
 		}
 
-		if IsInBlacklist(msg){
-			public.Debug("已经关闭聊天")
+		if !IsInBlacklist(msg){
+			public.Debug("没有打开聊天")
 			//是否获取帮助
 			SendMsg(GetReceiver(msg), XiaoDaiMengSleep, TXT_MSG)
 			return
@@ -180,9 +180,9 @@ func Handle(bMsg []byte) {
 		ff(msg)
 		return
 	}
-	//黑名单
-	if IsInBlacklist(msg){
-		public.Debug("已经关闭聊天")
+	//没有打开聊天
+	if !IsInBlacklist(msg){
+		public.Debug("没有打开聊天")
 		//是否获取帮助
 		return
 	}

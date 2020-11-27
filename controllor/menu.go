@@ -81,10 +81,10 @@ func init() {
 			case "新闻":
 				ff = News
 				break
-			case "真人陪聊":
+			case "小灰":
 				ff = OffCatch
 				break
-			case "你滚":
+			case "小呆萌":
 				ff = OnCatch
 				break
 			}

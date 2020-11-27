@@ -27,9 +27,9 @@ const (
 	HasDrawText = "啊！你今天已经抽了签啦~"
 	NotDrawText = "啊！你今天已经抽了签啦~"
 	XiaoDaiMengCried = "嘤嘤嘤,你就这么讨厌小呆萌嘛~"
-	XiaoDaiMengLose = "桀桀桀,小灰已上线，可以发 你滚 叫小呆萌回来"
+	XiaoDaiMengLose = "桀桀桀,小灰已上线，可以发 小呆萌 叫小呆萌回来"
 	XiaoDaiMengStay = "小呆萌一直在喔~"
-	XiaoDaiMengSleep = "小呆萌已经睡着了，可以发 你滚 叫小呆萌回来"
+	XiaoDaiMengSleep = "小呆萌已经睡着了，可以发 小呆萌 叫小呆萌醒来"
 	XiaoDaiMengCome = "嘿嘿，小呆萌回来啦~"
 )
 

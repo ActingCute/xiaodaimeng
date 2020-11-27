@@ -12,9 +12,9 @@ var Blacklist = map[string]bool{}
 func OffCatch(msg Msg)  {
 	public.Debug("关闭自动聊天",IsInBlacklist(msg))
 	//判断是否已经关闭
-	sid := GetSender(msg)
+	sid := msg.Sender
 	rid := GetReceiver(msg)
-	if IsInBlacklist(msg) {
+	if !IsInBlacklist(msg) {
 		SendMsg(rid, XiaoDaiMengCried, TXT_MSG)
 		return
 	}
@@ -27,7 +27,7 @@ func OffCatch(msg Msg)  {
 	//	public.Error("OffCatch:",err)
 	//	return
 	//}
-	Blacklist[sid] = true
+	Blacklist[sid] = false
 	SendMsg(rid, XiaoDaiMengLose, TXT_MSG)
 }
 
@@ -35,9 +35,9 @@ func OffCatch(msg Msg)  {
 func OnCatch(msg Msg)  {
 	public.Debug("开启自动聊天",IsInBlacklist(msg))
 	//判断是否已经关闭
-	sid := GetSender(msg)
+	sid := msg.Sender
 	rid := GetReceiver(msg)
-	if !IsInBlacklist(msg) {
+	if IsInBlacklist(msg) {
 		SendMsg(rid, XiaoDaiMengStay, TXT_MSG)
 		return
 	}
@@ -50,17 +50,17 @@ func OnCatch(msg Msg)  {
 	//	public.Error("OnCatch:",err)
 	//	return
 	//}
-	Blacklist[sid] = false
+	Blacklist[sid] = true
 	public.Debug("IsInBlacklist(msg) - ",IsInBlacklist(msg),Blacklist[sid],sid)
 	SendMsg(rid, XiaoDaiMengCome, TXT_MSG)
 }
 
-//判断是不是在黑名单
+//判断是不是在聊天名单
 func IsInBlacklist(msg Msg) bool {
-	sid := GetSender(msg)
+	sid := msg.Sender
 	public.Debug("IsInBlacklist sid:",sid)
 	if _, ok := Blacklist[sid]; ok {
-		return true
+		return Blacklist[sid]
 	}
 	return false
 }
