@@ -82,7 +82,7 @@ func Draw(msg Msg) {
 	key = public.GenerateRangeNum(0, lenLinQian)
 	linQian := linQianList[key]
 
-	SendMsg(GetReceiver(msg), linQian.Number, TXT_MSG)
+	SendMsg(GetReceiver(msg), linQian.Number + "\n回复8解签", TXT_MSG)
 
 	//插入数据库
 	work.Other = linQianType + "/" + linQian.Key

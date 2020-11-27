@@ -24,7 +24,7 @@ const (
 const (
 	FailText    = "小呆萌开了小差嘤嘤嘤，完成不了工作"
 	NotDoneText = "还在开发中呢~"
-	HasDrawText = "啊！你今天已经抽了签啦~"
+	HasDrawText = "啊！你今天已经抽了签啦~\n回复8查看解签"
 	NotDrawText = "啊！你今天还没抽签喔~回复7抽签"
 	XiaoDaiMengCried = "嘤嘤嘤,你就这么讨厌小呆萌嘛~"
 	XiaoDaiMengLose = "桀桀桀,小灰已上线，可以发 小呆萌 叫小呆萌回来"
