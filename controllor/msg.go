@@ -13,19 +13,6 @@ import (
 	"xiaodaimeng/public"
 )
 
-// {"times":"2020-11-04 08-32-33","type":"文字","source":"群消息","wxid":"22925504714@chatroom","msgSender":"wxid_azmds1whb7r212","content":"啊"}
-
-//{
-//id:getid(),
-//type:CHATROOM_MEMBER_NICK,
-//content:'5325308046@chatroom',//chatroom id 23023281066@chatroom  17339716569@chatroom
-////5325308046@chatroom
-////5629903523@chatroom
-//wxid:'ROOT'
-//  }
-
-//{"content":"","id":"","sender":"ROOT","srvid":1,"time":"2020-11-23 21:13:51","type":5005}
-
 type Msg struct {
 	Id        string `json:"id"`
 	Time      string `json:"time"`
@@ -160,7 +147,6 @@ func Handle(bMsg []byte) {
 		public.Printf("在工作名单中/红包 不回复")
 		return
 	}
-
 
 	//判断是不是菜单函数
 	if ff := IsMenuFunc(msg.Content); ff != nil {

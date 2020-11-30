@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"github.com/robfig/cron"
 	"os"
+	"strconv"
 	"sync"
+	"time"
 	"xiaodaimeng/public"
 )
 
@@ -22,12 +24,14 @@ type TimedTasks struct {
 	Time string   `json:"time"`
 	Msg  string   `json:"msg"`
 	WxId []string `json:"wx_id"`
+	Type string   `json:"type"`
 }
 
 var Curriculum []CurriculumContent
 var TimedTasksList []TimedTasks
 
 func init() {
+
 	c := cron.New()
 
 	//一些定时任务
@@ -45,7 +49,7 @@ func init() {
 			wg.Add(1)
 			go func(curr TimedTasks) {
 				c.AddFunc(curr.Time, func() {
-					DoTimedTasks(curr.WxId, curr.Msg)
+					DoTimedTasksWithType(curr.WxId, curr.Msg, curr.Type)
 				})
 				wg.Done()
 			}(tt)
@@ -80,5 +84,20 @@ func init() {
 func DoTimedTasks(wxIds []string, msg string) {
 	for _, wxId := range wxIds {
 		go SendMsg(wxId, msg, TXT_MSG)
+	}
+}
+
+func DoTimedTasksWithType(wxIds []string, msg, tp string) {
+	t := time.Now()
+	w := int(t.Weekday())
+
+	public.Debug("w--",w)
+	for _, wxId := range wxIds {
+		if tp == "good_night" {
+			picName := public.GetCurrentDirectory() + "/static/img/goodnight/" + strconv.Itoa(w) + ".jpg"
+			go SendMsg(wxId, picName, PIC_MSG)
+		}else{
+			go SendMsg(wxId, msg, TXT_MSG)
+		}
 	}
 }
