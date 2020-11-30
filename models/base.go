@@ -12,6 +12,12 @@ import (
 var DBOk = false
 var DB = new(xorm.Engine)
 var SQL = public.ConfigData.Mysql
+var ShowSql = public.ConfigData.IsDebug
+
+const (
+	TableBlackList = "black_list"
+	TableWork = "work"
+)
 
 func initMysql() {
 
@@ -23,7 +29,7 @@ func initMysql() {
 		public.Error("数据库连接失败:", err)
 		return
 	}
-	public.Debug("数据库连接ok:")
+	public.Debug("mysql数据库连接ok")
 
 	err = DB.Sync2(new(Work),new(BlackList))
 
@@ -32,6 +38,8 @@ func initMysql() {
 		return
 	}
 	DBOk = true
+
+	DB.ShowSQL(ShowSql)
 }
 
 func initSqlite3()  {
@@ -49,6 +57,7 @@ func initSqlite3()  {
 		public.Error("InitDB:",err)
 		return
 	}
+	public.Debug("sqlite3数据库连接ok")
 
 	DBOk = true
 }
@@ -62,6 +71,7 @@ func InitDB() {
 		initSqlite3()
 	}
 	if DBOk {
+		InitBlacklist()
 		f, err1 := os.Create("sql.log")
 		if err1 != nil {
 			public.Debug(err1.Error())

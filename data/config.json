@@ -1,12 +1,12 @@
 {
   "is_debug": true,
   "ws_orgin" : "localhost:5555",
-  "use_mysql": false,
+  "use_mysql": true,
   "mysql":{
     "table": "xiaodaimeng",
     "host": "127.0.0.1",
     "user": "root",
-    "password": "admin",
+    "password": "",
     "port": "3306"
   }
 }

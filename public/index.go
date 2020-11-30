@@ -71,6 +71,9 @@ func Error(errText ...interface{}) bool {
 	if len(errText) > 0 {
 		logPath, line := getCaller(2)
 		log.Println("[error] ", logPath, ":", line, " ", fmt.Sprint(errText...))
+		if ConfigData.IsDebug {
+			println("[error] ", logPath, ":", line, " ", fmt.Sprint(errText...))
+		}
 		return true
 	}
 	return false

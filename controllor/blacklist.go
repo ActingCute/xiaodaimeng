@@ -1,12 +1,9 @@
 package controllor
 
 import (
+	"xiaodaimeng/models"
 	"xiaodaimeng/public"
 )
-
-//聊天黑名单
-var Blacklist = map[string]bool{}
-
 
 //关闭自动聊天
 func OffCatch(msg Msg)  {
@@ -18,16 +15,16 @@ func OffCatch(msg Msg)  {
 		SendMsg(rid, XiaoDaiMengCried, TXT_MSG)
 		return
 	}
-	//bl := models.BlackList{
-	//	WxId:    sid,
-	//	In:      1}
-	//err := models.UpdateBlackList(&bl)
-	//if err != nil {
-	//	SendMsg(rid, FailText, TXT_MSG)
-	//	public.Error("OffCatch:",err)
-	//	return
-	//}
-	Blacklist[sid] = false
+	bl := models.BlackList{
+		WxId:    sid,
+		Open:      2}
+	err := models.UpdateBlackList(bl)
+	if err != nil {
+		SendMsg(rid, FailText, TXT_MSG)
+		public.Error("OffCatch:",err)
+		return
+	}
+	models.BlacklistMap[sid] = false
 	SendMsg(rid, XiaoDaiMengLose, TXT_MSG)
 }
 
@@ -41,17 +38,16 @@ func OnCatch(msg Msg)  {
 		SendMsg(rid, XiaoDaiMengStay, TXT_MSG)
 		return
 	}
-	//bl := models.BlackList{
-	//	WxId:    sid,
-	//	In:     2}
-	//err := models.UpdateBlackList(&bl)
-	//if err != nil {
-	//	SendMsg(rid, FailText, TXT_MSG)
-	//	public.Error("OnCatch:",err)
-	//	return
-	//}
-	Blacklist[sid] = true
-	public.Debug("IsInBlacklist(msg) - ",IsInBlacklist(msg),Blacklist[sid],sid)
+	bl := models.BlackList{
+		WxId:    sid,
+		Open:     1}
+	err := models.UpdateBlackList(bl)
+	if err != nil {
+		SendMsg(rid, FailText, TXT_MSG)
+		public.Error("OnCatch:",err)
+		return
+	}
+	models.BlacklistMap[sid] = true
 	SendMsg(rid, XiaoDaiMengCome, TXT_MSG)
 }
 
@@ -59,8 +55,9 @@ func OnCatch(msg Msg)  {
 func IsInBlacklist(msg Msg) bool {
 	sid := msg.Sender
 	public.Debug("IsInBlacklist sid:",sid)
-	if _, ok := Blacklist[sid]; ok {
-		return Blacklist[sid]
+	if _, ok := models.BlacklistMap[sid]; ok {
+		return models.BlacklistMap[sid]
 	}
 	return false
 }
+
