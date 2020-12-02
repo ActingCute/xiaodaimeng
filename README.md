@@ -5,10 +5,6 @@
 ## go 代理
  
    set GOPROXY=https://goproxy.cn
-  
-## 编译32位
-
-    set GOARCH=386   
    
 ## vendor
 
